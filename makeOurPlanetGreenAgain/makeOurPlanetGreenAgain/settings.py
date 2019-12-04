@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'makeOurPlanetGreenAgain',
     'financeurs',
+    'copyright',
+    'projet',
+    'expert'
 ]
 
 MIDDLEWARE = [
