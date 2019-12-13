@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+
+def index(request):
+    return HttpResponse("La liste des projets")
+
+
+def detail(request, projet_id):
+    response = "Détail du projet %s"
+    return HttpResponse(response % projet_id)
