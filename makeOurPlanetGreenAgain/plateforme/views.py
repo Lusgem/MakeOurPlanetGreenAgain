@@ -1,8 +1,9 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("Bonjour c'est la page d'accueil ou quoi ?")
+    return render(request, "index.html")
 
 
 def contact(request):
