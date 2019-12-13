@@ -1,8 +1,9 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("La liste des projets")
+    return render(request, "projet/index.html")
 
 
 def detail(request, projet_id):

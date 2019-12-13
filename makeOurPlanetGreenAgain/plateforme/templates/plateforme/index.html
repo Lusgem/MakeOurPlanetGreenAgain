@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make our planet green again</title>
+    {% load staticfiles %}
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <script src="{% static 'bootstrap.js' %}"></script>
+</head>
+<body>
+<ul class="nav nav-tabs nav-justified">
+    <li class="nav-item"><a href="{% url 'plateforme:index'%}" class="nav-link">Accueil</a></li>
+    <li class="nav-item"><a href="{% url 'projet:index'%}" class="nav-link">Liste des projets</a></li>
+    <li class="nav-item"><a href="{% url 'plateforme:contact'%}" class="nav-link">Contact</a></li>
+    <li class="nav-item"><a href="#" class="nav-link">Archives</a></li>
+    <li class="nav-item"><a href="{% url 'plateforme:credits'%}" class="nav-link">Crédits</a></li>
+</ul>
+<h1>Bonjour c'est la page d'accueil ou quoi ?</h1>
+</body>
+</html>

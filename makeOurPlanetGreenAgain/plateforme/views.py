@@ -3,12 +3,12 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, "index.html")
+    return render(request, "plateforme/index.html")
 
 
 def contact(request):
-    return HttpResponse("La page de contact yes")
+    return render(request, "plateforme/contact.html")
 
 
-def credit(request):
-    return HttpResponse("Crédits et Mentions légales")
+def credits(request):
+    return render(request, "plateforme/credits.html")
