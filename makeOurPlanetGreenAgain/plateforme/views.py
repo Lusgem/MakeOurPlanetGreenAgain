@@ -12,3 +12,5 @@ def contact(request):
 
 def credits(request):
     return render(request, "plateforme/credits.html")
+
+
