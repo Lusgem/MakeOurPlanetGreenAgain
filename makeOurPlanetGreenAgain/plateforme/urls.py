@@ -5,5 +5,6 @@ app_name = "plateforme"
 urlpatterns = [
     path('', views.index, name='index'),
     path('contact/', views.contact, name='contact'),
-    path('credits/', views.credits, name='credits')
+    path('credits/', views.credits, name='credits'),
+    path('auth/', views.logger, name='logger')
 ]
