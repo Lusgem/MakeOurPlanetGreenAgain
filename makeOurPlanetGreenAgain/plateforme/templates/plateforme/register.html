@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <form class="form mt-5" role="form" method="post" action="/register/">
+
+                               <div class="row">
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			                        <input type="text" value="{{ data.first_name }}" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name" title="Required. 20 characters or fewer.">
+			    					{% for  value in form.errors.first_name %}
+                                          <p class="text-danger">{{ value }}</p>
+                                        {% endfor %}
+                                    </div>
+			    				</div>
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="text"  value="{{ data.last_name }}"name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name" title="Required. 20 characters or fewer.">
+                                        {% for  value in form.errors.last_name %}
+                                          <p class="text-danger">{{ value }}</p>
+                                        {% endfor %}
+                                    </div>
+			    				</div>
+			    			</div>
+                               <div class="form-group">
+                                 <input name="username"  value="{{ data.username }}" placeholder="Pseudo" id="id_username" class="form-control input-sm" type="text" required="" title="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.">
+                                {% for  value in form.errors.username %}
+                                          <p class="text-danger">{{ value }}</p>
+                                        {% endfor %}
+                               </div>
+			    			<div class="form-group">
+			    				<input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address" title="Required." value="{{ data.email }}">
+                                {% for  value in form.errors.email %}
+                                          <p class="text-danger">{{ value }}</p>
+                                        {% endfor %}
+			    			</div>
+
+			    			<div class="row">
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="password" value="{{ data.password1 }}" name="password1" id="password" class="form-control input-sm" placeholder="Password" title=" * Your password can't be too similar to your other personal information.
+* Your password must contain at least 8 characters.
+* Your password can't be a commonly used password.
+* Your password can't be entirely numeric.">
+                                        {% for value in form.errors.password1 %}
+                                          <p class="text-danger"> {{ value }}</p>
+                                        {% endfor %}
+			    					</div>
+			    				</div>
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="password" value="{{ data.password2 }}" name="password2" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
+                                        {% for  value in form.errors.password2 %}
+                                          <p class="text-danger">{{ value }}</p>
+                                        {% endfor %}
+			    					</div>
+			    				</div>
+			    			</div>
+
+                              <div class="form-group">
+                                 {% csrf_token %}
+                                 <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+                              </div>
+                           </form>
+
+{% endblock %}
