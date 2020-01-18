@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load staticfiles %}
+
+
+<div class="container mt-3">
+    <h1>{{ project.nom }}</h1>
+    <small>Published on {{ project.publication_date|date:"F d, Y" }}</small>
+
+    <div class="row mt-5">
+        <div class="col-sm">
+            <p class="lead">{{ project.description }}</p>
+        </div>
+        <div class="col-3">
+            <p class="lead">Montant : {{ project.montant }} €</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <small><img src="{% static 'img/copyright_logo.png' %}">
+                {{ project.copyright.nom }}</small>
+        </div>
+        <div class="col-3">
+            <hr>
+            <p>Membres du projet :</p>
+            {% for membre in project.membres.all %}
+            <p class="ml-3">{{ membre.first_name }} {{ membre.last_name }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

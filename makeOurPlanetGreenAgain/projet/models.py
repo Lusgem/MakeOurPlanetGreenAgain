@@ -10,6 +10,6 @@ class Projet(models.Model):
 	nom = models.CharField(max_length=20)
 	membres = models.ManyToManyField(User)
 	montant = models.IntegerField()
-	license = models.OneToOneField(Copyright,on_delete=models.CASCADE)
+	copyright = models.OneToOneField(Copyright,on_delete=models.CASCADE)
 	publication_date = models.DateTimeField(default=datetime.now)
 	description = models.CharField(max_length=1000)
