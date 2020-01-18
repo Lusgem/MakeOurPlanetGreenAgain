@@ -16,7 +16,17 @@
                                   <div class="card border-info mt-2 ml-2 mr-2 mb-1">
                                         <div class="card-header"> <h2>{{ user_last_project.nom }} : </h2></div>
                                         <div class="card-body">{{ user_last_project.description }} </div>
-                                        </div>
+                                  </div>
+
+                                {% if comments_project %}
+                                     <div class="card-body"> Comment(s) : </div>
+                                    {% for comment in comments_project %}
+                                        <p class="ml-4"> <strong>{{ comment.utilisateur.username }}</strong> : {{ comment.content }} </p>
+                                    {% endfor %}
+                                {% else %}
+                                     <div class="card-body"> No comments. </div>
+                                {% endif %}
+
                                 {% else %}
                                     No project funded.
                                 {% endif %}
