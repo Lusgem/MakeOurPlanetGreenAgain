@@ -1,7 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<--
-content
---!>
+
+<div class="container mt-4">
+
+    <p class="lead">Please contact us.</p>
+
+    <form class="form" action="" role="form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input id="nameInput" name="name" placeholder="Name" class="form-control form-control-sm" type="text"
+                      required="">
+        </div>
+        <div class="form-group">
+            <input id="mailInput" name="mail" placeholder="Mail" class="form-control form-control-sm" type="text"
+                      required="">
+        </div>
+        <div class="form-group">
+            <input id="subjectInput" name="subject" placeholder="Subject" class="form-control form-control-sm" type="text">
+        </div>
+        <div class="form-group">
+            <textarea id="messageArea" name="message" placeholder="Message" class="form-control form-control-sm" type="text"
+                      required=""></textarea>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+        </div>
+    </form>
+</div>
+
 {% endblock %}
