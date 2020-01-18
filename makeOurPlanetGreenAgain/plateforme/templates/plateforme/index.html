@@ -2,6 +2,49 @@
 
 {% block content %}
 
+                {% if user.is_authenticated %}
+                    <div class="text-center mt-2 lead">
+                        <p class=""> Hello <strong>{{ user.username }}</strong> you have contributed to <strong>{{num_project}}</strong> project</p>
+
+                    </div>
+
+
+                     <div class="card mt-2">
+                        <div class="card-header"> <h2> Last projects funded : </h2></div>
+                        <div class="card-body">
+
+                            {% if user_last_project %}
+                                  <div class="card border-info mt-2 ml-2 mr-2 mb-1">
+                                        <div class="card-header"> <h2>{{ user_last_project.nom }} : </h2></div>
+                                        <div class="card-body">{{ user_last_project.description }} </div>
+                                        </div>
+                                {% else %}
+                                    No project funded.
+                                {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card mt-2">
+                        <div class="card-header">Create an account / connect to your account ! for more content !</div>
+                    </div>
+                {% endif %}
+
+
+                     <div class="card mt-2">
+                        <div class="card-header"> <h2> Random projects : </h2></div>
+                         {% if random_project_list %}
+                             {% for random_project in random_project_list %}
+                                      <div class="card border-dark mt-4 ml-4 mr-4 mb-1">
+                                        <div class="card-header"> <h2>{{ random_project.nom }} : </h2></div>
+                                        <div class="card-body">{{ random_project.description }} </div>
+                                        </div>
+                             {% endfor %}
+
+                         {% else %}
+                            <div class="card-body">no project now...</div>
+                         {% endif %}
+                    </div>
+
 
 
 {% endblock %}

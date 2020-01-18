@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
@@ -5,11 +6,18 @@ from . import forms as f
 import logging
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
+from projet.models import Projet
+from financeurs.models import financeur
 
 log = logging.getLogger(__name__)
 
 def index(request):
-    return render(request, "plateforme/index.html")
+    random_project_list = Projet.objects.order_by('?')[:5]
+    context={'random_project_list': random_project_list}
+    if(request.user.is_authenticated):
+        last_projects=financeur.objects.filter(utilisateur=request.user)
+        context = {'random_project_list': random_project_list, "user_last_project" : last_projects[0].projetsfinances.all().last(), "num_project" : last_projects[0].projetsfinances.all().count()}
+    return render(request, "plateforme/index.html", context)
 
 def contact(request):
     if request.method == 'GET':
@@ -35,7 +43,6 @@ def contact(request):
             return redirect('/contact/')
 
     return render(request, "plateforme/contact.html", {'form': form})
-
 
 def credits(request):
     return render(request, "plateforme/credits.html")
