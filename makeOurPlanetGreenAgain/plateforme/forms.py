@@ -12,7 +12,7 @@ class RegisterForm(UserCreationForm):
     last_name = forms.CharField(label="last_name",max_length=20)
     class Meta:
         model= User
-        fields= ['username', 'email', 'password1', 'password2']
+        fields= ['username', 'email', 'password1', 'password2', 'first_name','last_name']
 
 class ContactForm(forms.Form):
     name = forms.CharField(required=True)
