@@ -2,6 +2,24 @@
 
 {% block content %}
 
-<h1>Liste des projets</h1>
+<h1 class="my-3">Projets récents</h1>
+
+{% if latest_project_list %}
+    <div class="list-group mx-4">
+        {% for project in latest_project_list %}
+            <a href="{% url 'projet:detail' project.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <h5 class="mb-1">{{ project.nom }}</h5>
+                    <small>{{ project.publication_date|date:"d F Y" }}</small>
+                </div>
+                <p class="mb-1 pr-5">{{ project.description|truncatewords_html:50 }}</p>
+                <small>Montant : {{ project.montant }} €</small>
+            </a>
+
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="lead">There is no project yet. Add one !</p>
+{% endif %}
 
 {% endblock %}
