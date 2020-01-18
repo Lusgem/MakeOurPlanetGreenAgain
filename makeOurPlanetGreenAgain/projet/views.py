@@ -10,6 +10,7 @@ def index(request):
     return render(request, "projet/index.html", context)
 
 
-def detail(request, projet_id):
-    response = "Détail du projet %s"
-    return HttpResponse(response % projet_id)
+def detail(request, project_id):
+    project = get_object_or_404(Projet, pk=project_id)
+    context = {'project': project}
+    return render(request, "projet/detail.html", context)
