@@ -10,6 +10,9 @@ from projet.models import Projet
 from financeurs.models import financeur
 from .models import Commentaire
 log = logging.getLogger(__name__)
+from .feeds import ProjectsFeed
+
+import xml.dom.minidom
 
 def index(request):
     random_project_list = Projet.objects.order_by('?')[:5]
@@ -19,6 +22,7 @@ def index(request):
         comments= Commentaire.objects.filter(projet=last_projects[0].projetsfinances.all().last())
         context = {'random_project_list': random_project_list, "user_last_project" : last_projects[0].projetsfinances.all().last(),
                    "num_project" : last_projects[0].projetsfinances.all().count(), "comments_project": comments}
+
     return render(request, "plateforme/index.html", context)
 
 def contact(request):

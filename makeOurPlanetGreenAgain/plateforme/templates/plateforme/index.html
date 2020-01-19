@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
-     <script>
+
+
+    <script>
       $(document).on('click','.project',function(e) {
             document.location.href = "/projets/"+this.id+"/"
         });
     </script>
+    {% load static %}
+
+    <div  class="text-center" >
+        <a href="{%url 'plateforme:rss_view' %}" height="42" width="42" style="display: inline-block" >
+            <img src="{% static 'img/rss-feed.png' %}"  height="42" width="42" class="rounded mx-auto d-block mt-2"/>
+        </a>
+    </div>
 
 
                 {% if user.is_authenticated %}
