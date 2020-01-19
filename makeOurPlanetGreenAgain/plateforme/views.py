@@ -16,9 +16,10 @@ def index(request):
     context={'random_project_list': random_project_list}
     if(request.user.is_authenticated):
         last_projects=financeur.objects.filter(utilisateur=request.user)
-        comments= Commentaire.objects.filter(projet=last_projects[0].projetsfinances.all().last())
-        context = {'random_project_list': random_project_list, "user_last_project" : last_projects[0].projetsfinances.all().last(),
-                   "num_project" : last_projects[0].projetsfinances.all().count(), "comments_project": comments}
+        if last_projects.count() > 0:
+            comments= Commentaire.objects.filter(projet=last_projects[0].projetsfinances.all().last())
+            context = {'random_project_list': random_project_list, "user_last_project" : last_projects[0].projetsfinances.all().last(),
+                       "num_project" : last_projects[0].projetsfinances.all().count(), "comments_project": comments}
     return render(request, "plateforme/index.html", context)
 
 def contact(request):
