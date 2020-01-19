@@ -2,3 +2,4 @@ __pycache__/
 makeOurPlanetGreenAgain/__pycache__/
 *.pyc
 */.idea/
+*.orig
