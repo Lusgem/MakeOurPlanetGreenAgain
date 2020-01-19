@@ -16,12 +16,6 @@ class Migration(migrations.Migration):
             model_name='comment',
             name='id',
         ),
-        migrations.AddField(
-            model_name='comment',
-            name='auto_increment_id',
-            field=models.AutoField(default=1, primary_key=True, serialize=False),
-            preserve_default=False,
-        ),
         migrations.AlterField(
             model_name='comment',
             name='projet',
