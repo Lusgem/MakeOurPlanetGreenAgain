@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="my-3">Nouveau projet</h1>
+
+<form class="form" action="" role="form" method="post" id="project_form">
+    {% csrf_token %}
+    <div class="form-group">
+        <input id="nameInput" name="nom" placeholder="Project name" class="form-control form-control-sm" type="text"
+               required="">
+    </div>
+    <div class="form-group">
+        <textarea id="descriptinoArea" name="description" placeholder="Description" class="form-control form-control-sm"
+                  required=""></textarea>
+    </div>
+    <div class="form-group">
+        <input id="montantInput" name="montant" placeholder="Montant" class="form-control form-control-sm" type="number"
+               required="">
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+    </div>
+</form>
+
+<!-- TODO select members-->
+<!--<select class="form-control" form="project_form" multiple>-->
+<!--    {% for value, member in form.membres.field.choices %}-->
+<!--        <option value="{{ value }}">{{ member }}</option>-->
+<!--    {% endfor %}-->
+<!--</select>-->
+
+{% endblock %}
