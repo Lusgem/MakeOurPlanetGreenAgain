@@ -26,7 +26,7 @@
             <p class="lead">Montant : {{ project.montant }} €</p>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-sm">
             <small><img src="{% static 'img/copyright_logo.png' %}">
                 {{ project.copyright.nom }}</small>
@@ -39,6 +39,35 @@
             {% endfor %}
         </div>
     </div>
+
+    <hr>
+    <div class="mt-4">
+        <p class="font-weight-light">Commentaires :</p>
+        <form class="form" action="" role="form" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea id="contentInput" name="content" placeholder="Comment" class="form-control form-control-sm"
+                       required=""></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+            </div>
+        </form>
+    </div>
+    <div class="list-group mb-3">
+        {% for comment in comments %}
+        <div class="list-group-item">
+            <div class="d-flex justify-content-between">
+                <h5 class="mb-1">{{ comment.utilisateur.first_name }} {{ comment.utilisateur.last_name }} :</h5>
+                <small>{{ comment.publication_date|date:"d F Y, G:i" }}</small>
+            </div>
+            <p class="mb-1 pr-5">{{ comment.content|linebreaksbr }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
 </div>
 
 
