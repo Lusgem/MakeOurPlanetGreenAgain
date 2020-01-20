@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
@@ -9,18 +9,23 @@ from .forms import ContactForm
 from projet.models import Projet
 from financeurs.models import financeur
 from .models import Commentaire
+from django.template.loader import render_to_string
+
 log = logging.getLogger(__name__)
+
 
 def index(request):
     random_project_list = Projet.objects.order_by('?')[:5]
-    context={'random_project_list': random_project_list}
-    if(request.user.is_authenticated):
-        last_projects=financeur.objects.filter(utilisateur=request.user)
+    context = {'random_project_list': random_project_list}
+    if request.user.is_authenticated:
+        last_projects = financeur.objects.filter(utilisateur=request.user)
         if last_projects.count() > 0:
-            comments= Commentaire.objects.filter(projet=last_projects[0].projetsfinances.all().last())
-            context = {'random_project_list': random_project_list, "user_last_project" : last_projects[0].projetsfinances.all().last(),
-                       "num_project" : last_projects[0].projetsfinances.all().count(), "comments_project": comments}
+            comments = Commentaire.objects.filter(projet=last_projects[0].projetsfinances.all().last())
+            context = {'random_project_list': random_project_list,
+                       "user_last_project": last_projects[0].projetsfinances.all().last(),
+                       "num_project": last_projects[0].projetsfinances.all().count(), "comments_project": comments}
     return render(request, "plateforme/index.html", context)
+
 
 def contact(request):
     if request.method == 'GET':
@@ -47,8 +52,10 @@ def contact(request):
 
     return render(request, "plateforme/contact.html", {'form': form})
 
+
 def credits(request):
     return render(request, "plateforme/credits.html")
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -59,13 +66,13 @@ def login_view(request):
             username = form['username'].value()
             password = form['password'].value()
             user = authenticate(request, username=username, password=password)
-           
+
             if user is not None:
                 log.error("authenticated")
                 login(request, user)
             else:
                 log.error("failed")
-                
+
             return redirect('/')
 
     # if a GET (or any other method) we'll create a blank form
@@ -74,12 +81,13 @@ def login_view(request):
 
     return render(request, 'plateforme/index.html')
 
+
 def logout_view(request):
     logout(request)
     return redirect('/')
 
-def register_view(request):
 
+def register_view(request):
     if request.method == 'POST':
         form = f.RegisterForm(request.POST)
         if form.is_valid():
@@ -94,19 +102,42 @@ def register_view(request):
                 login(request, user)
 
             ######################### mail system ####################################
-            #htmly = get_template('email.html')
-            #d = {'username': 'username'}
-            #subject, from_email, to = 'welcome', 'planetgreenagain@outlook.com', 'fernandez27.tf@gmail.com'
-            #html_content = htmly.render(d)
-            ##msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-            #msg.attach_alternative(html_content, "text / html")
-            #msg.send()
+            # htmly = get_template('email.html')
+            # d = {'username': 'username'}
+            # subject, from_email, to = 'welcome', 'planetgreenagain@outlook.com', 'fernandez27.tf@gmail.com'
+            # html_content = htmly.render(d)
+            # msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+            # msg.attach_alternative(html_content, "text / html")
+            # msg.send()
             return redirect('/')
         else:
             log.error(form.error_messages)
-            return render(request, 'plateforme/register.html',{'form':form, 'data': request.POST})
+            return render(request, 'plateforme/register.html', {'form': form, 'data': request.POST})
 
     else:
         form = f.RegisterForm()
 
-    return  render(request, 'plateforme/register.html')
+    return render(request, 'plateforme/register.html')
+
+
+def search(request):
+    url_parameter = request.GET.get("q")
+
+    if url_parameter:
+        projects = Projet.objects.filter(nom__icontains=url_parameter)
+    else:
+        projects = Projet.objects.all()
+
+    context = {'projects': projects}
+
+    if request.is_ajax():
+        print("ok")
+        html = render_to_string(
+            template_name="plateforme/projects-results.html",
+            context=context
+        )
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
+
+    return render(request, "plateforme/search.html", context)

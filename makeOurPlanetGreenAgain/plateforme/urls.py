@@ -11,5 +11,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout_view'),
     path('register/', views.register_view, name='register_view'),
     path('latest/feed', ProjectsFeed(), name='rss_view'),
-
+    path('search/', views.search, name='search')
 ]
