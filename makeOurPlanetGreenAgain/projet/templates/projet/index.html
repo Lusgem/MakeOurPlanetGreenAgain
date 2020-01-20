@@ -11,9 +11,9 @@
     </div>
 </div>
 
-{% if latest_project_list %}
+{% if projects %}
 <div class="list-group mx-4">
-    {% for project in latest_project_list %}
+    {% for project in projects %}
     <a href="{% url 'projet:detail' project.id %}" class="list-group-item list-group-item-action">
         <div class="d-flex justify-content-between">
             <h5 class="mb-1">{{ project.nom }}</h5>
@@ -28,5 +28,31 @@
 {% else %}
 <p class="lead">There is no project yet. Add one !</p>
 {% endif %}
+
+<div class="m-4">
+{% if projects.has_other_pages %}
+    <nav aria-label="Pagination">
+        <ul class="pagination">
+            {% if projects.has_previous %}
+            <li class="page-item"><a href="?page={{ projects.previous_page_number }}" class="page-link">Previous</a></li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+            {% for i in projects.paginator.page_range %}
+                {% if projects.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if projects.has_next %}
+            <li class="page-item"><a href="?page={{ projects.next_page_number }}" class="page-link">Next</a></li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+</div>
 
 {% endblock %}

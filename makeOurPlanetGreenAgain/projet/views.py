@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import Projet
 from .forms import ProjectForm
 import logging
@@ -8,9 +9,19 @@ log = logging.getLogger(__name__)
 
 
 def index(request):
-    # TODO : add pagination
-    latest_project_list = Projet.objects.order_by('-publication_date')[:5]
-    context = {'latest_project_list': latest_project_list}
+    project_list = Projet.objects.order_by('-publication_date')
+
+    paginator = Paginator(project_list, 6)  # 6 projets par page
+    page = request.GET.get('page')
+
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        projects = paginator.page(1)
+    except EmptyPage:
+        projects = paginator.page(paginator.num_pages)
+
+    context = {'projects': projects}
     return render(request, "projet/index.html", context)
 
 

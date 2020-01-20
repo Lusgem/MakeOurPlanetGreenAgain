@@ -10,6 +10,7 @@ from projet.models import Projet
 from financeurs.models import financeur
 from .models import Commentaire
 from django.template.loader import render_to_string
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 log = logging.getLogger(__name__)
 
@@ -124,14 +125,23 @@ def search(request):
     url_parameter = request.GET.get("q")
 
     if url_parameter:
-        projects = Projet.objects.filter(nom__icontains=url_parameter)
+        project_list = Projet.objects.filter(nom__icontains=url_parameter).order_by('-publication_date')
     else:
-        projects = Projet.objects.all()
+        project_list = Projet.objects.all().order_by('-publication_date')
+
+    paginator = Paginator(project_list, 6)  # 6 projets par page
+    page = request.GET.get('page')
+
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        projects = paginator.page(1)
+    except EmptyPage:
+        projects = paginator.page(paginator.num_pages)
 
     context = {'projects': projects}
 
     if request.is_ajax():
-        print("ok")
         html = render_to_string(
             template_name="plateforme/projects-results.html",
             context=context
