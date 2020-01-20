@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'copyright',
     'projet',
     'expert',
-    'plateforme'
+    'plateforme',
+    'plateforme.templatetags.marktags'
 ]
 
 MIDDLEWARE = [

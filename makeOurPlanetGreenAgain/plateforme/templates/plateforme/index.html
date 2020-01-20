@@ -55,8 +55,26 @@
 
 
                      <div class="card mt-2">
-                        <div  class="card-header"> <h2> Random projects : </h2></div>
-                         {% if random_project_list %}
+                        <div  class="card-header mb-2"> <h2> Random projects : </h2></div>
+
+                            {% if random_project_list %}
+                            <div class=" mx-4 my-2">
+                                {% for random_project in random_project_list %}
+                                <a href="{% url 'projet:detail' random_project.id %}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between ">
+                                        <h5 class="mb-1">{{ random_project.nom }}</h5>
+                                        <small>{{ random_project.publication_date|date:"d F Y" }}</small>
+                                    </div>
+                                    <p class="mb-1 pr-5">{{ random_project.description|truncatewords_html:50 }}</p>
+                                    <small>Montant : {{ random_project.montant }} €</small>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="lead">There is no project yet. Add one !</p>
+                            {% endif %}
+
+{% comment %}                         {% if random_project_list %}
                              {% for random_project in random_project_list %}
                                       <div id="{{ random_project.id }}" class=" project card border-dark mt-4 ml-4 mr-4 mb-1">
                                         <div class="card-header"> <h2>{{ random_project.nom }} : </h2></div>
@@ -66,7 +84,7 @@
 
                          {% else %}
                             <div class="card-body">no project now...</div>
-                         {% endif %}
+                         {% endif %}{% endcomment %}
                     </div>
 
 

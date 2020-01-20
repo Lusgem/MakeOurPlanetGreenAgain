@@ -3,16 +3,80 @@
 {% block content %}
 {% load staticfiles %}
 
+    <script>
+
+
+      $(document).on('click','#cart',function(e) {
+
+          var isInCart = new Boolean(false)
+
+          $("#cartList").children().each(function(i) {
+
+              if ($($($(this).children("td")[0]).children("a")[0]).text() == "{{ project.nom }}"){
+                  isInCart=true
+              }
+            });
+
+            if(isInCart==false){
+
+                var lineCart = {"projectName" : "{{  project.nom }}", "projectPath": this.baseURI }
+
+                console.log(JSON.stringify(lineCart))
+                $.ajax({
+                    type: "POST",
+                    beforeSend: function(request) {
+                        request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    },
+                    url: '{% url "plateforme:add_to_cart" %}',
+                    dataType: "json",
+                    data: {"list" :lineCart},
+                      success: function () {
+                        console.log("success")
+
+                           $("#cartList").append(
+                '            <tr>\n' +
+                '              <th scope="row">'+($("#cartList").children().length)+'</th>\n' +
+                '              <td> <a href="'+this.baseURI+'">{{ project.nom }}</a></td>\n' +
+                '              <td> <button id="{{ project.nom }}_cart" class=" button-cart-remove btn btn-outline-secondary btn-danger text-light">X</button></td>\n' +
+
+                '            </tr>')
+
+                      },
+                      error: function (data) {
+                        alert("Impossible d'ajouter au panier.")
+                      },
+                      complete: function (data) {
+                      }
+                    })
+            }else{
+                alert("Impossible d'ajouter au panier. Projet déjà présent !")
+            }
+        });
+
+
+    </script>
+
 
 <div class="container mt-3">
     <h1>{{ project.nom }}</h1>
     <small>Published on {{ project.publication_date|date:"F d, Y" }}</small>
 
+    <div class="row mt-5 ">
+        <div class="col" style="text-align: right">
+             {% if user.is_authenticated %}
+            {% load static %}
+            <button id="cart" type="button" class="btn btn-info text-white" data-toggle="modal" data-target="#modalCart">
+                Add to cart ? <img src="{% static 'img/cart.png' %}" width="20" />
+            </button>
+            {% endif %}
+        </div>
+    </div>
     <div class="row mt-5">
         <div class="col-sm">
             <p class="lead">{{ project.description }}</p>
         </div>
         <div class="col-3">
+
             <p class="lead">Montant : {{ project.montant }} €</p>
         </div>
     </div>

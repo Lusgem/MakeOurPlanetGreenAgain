@@ -1,17 +1,26 @@
+import json
+import datetime
+import logging
+
+from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
+from matplotlib.rcsetup import validate_nseq_float
+
+from makeOurPlanetGreenAgain import settings
 from . import forms as f
-import logging
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from projet.models import Projet
 from financeurs.models import financeur
 from .models import Commentaire
+
 log = logging.getLogger(__name__)
 
 def index(request):
+
     random_project_list = Projet.objects.order_by('?')[:5]
     context={'random_project_list': random_project_list}
     if(request.user.is_authenticated):
@@ -110,3 +119,84 @@ def register_view(request):
         form = f.RegisterForm()
 
     return  render(request, 'plateforme/register.html')
+
+def checkout_view(request):
+    value = request.COOKIES.get('cart_projects')
+    list = ""
+    if value != None:
+        log.error(value)
+        cookieToDict = json.loads(value.replace('\'', '\"'))
+
+        list = cookieToDict['list']
+
+        result =QuerySet( Projet)
+
+        for item in list:
+            log.error(item['0'])
+            p = Projet.objects.filter(nom=item['0'])
+            result |= p
+
+    context = {'cart': result}
+
+    return render(request, "plateforme/checkout.html", context)
+
+def set_cookie(response, key, value, days_expire = 7):
+  if days_expire is None:
+    max_age = 365 * 24 * 60 * 60  #one year
+  else:
+    max_age = days_expire * 24 * 60 * 60
+  expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+  response.set_cookie(key, value, max_age=max_age, expires=expires, secure= None)
+
+def cookie_add_to_cart(request):
+
+    projectName=request.POST["list[projectName]"]
+    projectPath=request.POST["list[projectPath]"]
+
+    json_data = json.dumps({"HTTPRESPONSE": "ok"})
+    response = HttpResponse(json_data, content_type="application/json")
+
+    value= request.COOKIES.get('cart_projects')
+
+    if value != None:
+        log.error(value)
+        cookieToDict= json.loads(value.replace('\'','\"'))
+
+        list=cookieToDict['list']
+        list.append({'0': projectName, '1': projectPath})
+
+        cookieToDict["list"]= list
+        value=cookieToDict
+
+    else:
+        value = {"list": [{"0": projectName, "1": projectPath}]}
+
+    set_cookie(response,"cart_projects", json.loads(json.dumps(value)))
+
+    return response
+
+def cookie_remove_from_cart(request):
+    projectName = request.POST["name"].replace("_cart","")
+    log.error(projectName)
+    value = request.COOKIES.get('cart_projects')
+    if value != None:
+        cookieToDict = json.loads(value.replace('\'', '\"'))
+        list = cookieToDict['list']
+        toRemove=""
+
+        for i in list:
+            if i['0'] == projectName:
+                toRemove=i
+        if toRemove != "":
+            list.remove(toRemove)
+        cookieToDict['list']=list
+
+        value = cookieToDict
+
+
+    json_data = json.dumps({"HTTPRESPONSE": "ok"})
+    response = HttpResponse(json_data, content_type="application/json")
+
+    set_cookie(response, "cart_projects", json.loads(json.dumps(value)))
+
+    return response

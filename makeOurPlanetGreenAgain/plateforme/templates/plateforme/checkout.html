@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="card mt-2">
+                        <div  class="card-header mb-2"> <h2> Cart projects : </h2></div>
+
+                            {% if cart %}
+                            <div class=" mx-4 my-2">
+                                {% for item in cart %}
+                                <a href="{% url 'projet:detail' item.id %}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between ">
+                                        <h5 class="mb-1">{{ item.nom }}</h5>
+                                        <small>{{ item.publication_date|date:"d F Y" }}</small>
+                                    </div>
+                                    <p class="mb-1 pr-5">{{ item.description|truncatewords_html:50 }}</p>
+                                    <small>Montant : {{ item.montant }} €</small>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                                <p class="lead ml-2">There is no project in your basket. <a href="{% url 'projet:index' %}">Add one !</a></p>
+                            {% endif %}
+
+{% comment %}                         {% if random_project_list %}
+                             {% for random_project in random_project_list %}
+                                      <div id="{{ random_project.id }}" class=" project card border-dark mt-4 ml-4 mr-4 mb-1">
+                                        <div class="card-header"> <h2>{{ random_project.nom }} : </h2></div>
+                                        <div class="card-body">{{ random_project.description }} </div>
+                                        </div>
+                             {% endfor %}
+
+                         {% else %}
+                            <div class="card-body">no project now...</div>
+                         {% endif %}{% endcomment %}
+                    </div>
+
+{% endblock %}

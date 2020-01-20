@@ -13,6 +13,7 @@
     
     {% load static %}
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    {% load static %}
     <script src="{% static 'js/bootstrap.js' %}"></script>
 
 
@@ -20,6 +21,25 @@
 {% endblock %}
 <body>
 {% block nav %}
+<script>
+
+ function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" role="navigation" >
     <div class="container">
@@ -45,6 +65,12 @@
                                 <button type="submit" class="btn btn-outline-secondary btn-danger text-light">Logout</button>
                            </form>
                         </li>
+                       <li  class="order-sm-3 ml-5" >
+                        {% load static %}
+                           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalCart">
+                                 <img src="{% static 'img/cart.png' %}" width="20" />
+                           </button>
+                       </li>
                    {% else %}
                   <li class="dropdown order-1">
                      <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle btn-success text-light">Login <span class="caret"></span></button>
@@ -79,10 +105,9 @@
                </ul>
             </div>
          </div>
-      </nav>
+</nav>
 
-
-      <div id="modalPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="modalPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
@@ -99,8 +124,95 @@
             </div>
          </div>
       </div>
+<!-- Modal: modalCart -->
+<div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Your project(s) cart : </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
 
-      {% endblock %}
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Project name</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody id="cartList">
+ {% load marktags %}
+
+           <script>
+                var list_p= new String("{{request.COOKIES.cart_projects }}").replace(/\&#39;/g,"\"")
+                if(list_p){
+                     var js=JSON.parse(list_p)
+
+                jQuery.each(js["list"], function() {
+
+                    $("#cartList").append(
+                '            <tr id="'+this[0]+'_cart_row">\n' +
+                '              <th scope="row">'+($("#cartList").children().length)+'</th>\n' +
+                '              <td> <a href="'+this[1]+'">'+this[0]+'</a></td>\n' +
+                '              <td> <button id="'+this[0]+'_cart" class=" button-cart-remove btn btn-outline-secondary btn-danger text-light">X</button></td>\n' +
+                '            </tr>')
+
+                   })
+                }
+
+
+            $(document).on('click','.button-cart-remove',function(e) {
+
+
+                $.ajax({
+                    type: "POST",
+                    beforeSend: function(request) {
+                        request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    },
+                    url: '{% url "plateforme:remove_from_cart" %}',
+                    dataType: "json",
+                    data: {"name" :this.id},
+                      success: function () {
+
+                      },
+                      error: function () {
+                        alert("Impossible d'ajouter au panier.")
+                      },
+                      complete: function (data) {
+                      }
+                    })
+
+                $("#"+this.id+"_row").remove()
+            })
+
+           </script>
+          <p></p>
+
+          </tbody>
+        </table>
+
+      </div>
+      <!--Footer-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+          <form class="form" role="form" method="post" action="/checkout/">
+              {% csrf_token %}
+              <button class="btn btn-primary">Checkout</button>
+          </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
       <div class="container-fluid">
          {% block content %}
          {% endblock %}
