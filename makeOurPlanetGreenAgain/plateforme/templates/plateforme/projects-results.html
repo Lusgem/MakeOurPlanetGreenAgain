@@ -7,7 +7,14 @@
             <small>{{ project.publication_date|date:"d F Y" }}</small>
         </div>
         <p class="mb-1 pr-5">{{ project.description|truncatewords_html:50 }}</p>
-        <small>Montant : {{ project.montant }} €</small>
+        <div class="d-flex justify-content-between">
+            <small>Montant : {{ project.montant }} €</small>
+            {% ifequal project.financement project.montant %}
+            <span class="badge badge-success">Finished</span>
+            {% else %}
+            <span class="badge badge-warning">In progress</span>
+            {% endifequal %}
+        </div>
     </a>
 
     {% endfor %}
