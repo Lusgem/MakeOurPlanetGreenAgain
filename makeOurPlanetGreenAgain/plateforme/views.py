@@ -42,7 +42,9 @@ def profile(request):
     paiements = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
     paginator = Paginator(paiements, 8)  # 8 projets par page
 
-    expert = Expert.objects.get(utilisateur=request.user)
+
+
+
 
     page = request.GET.get('page')
 
@@ -52,8 +54,11 @@ def profile(request):
         paiements = paginator.page(1)
     except EmptyPage:
         paiements = paginator.page(paginator.num_pages)
-
-    context = {"paiements": paiements, "validated_projects": expert.validated_projects.all()}
+    if Expert.objects.filter(utilisateur=request.user):
+        expert = Expert.objects.get(utilisateur=request.user)
+        context = {"paiements": paiements, "validated_projects": expert.validated_projects.all()}
+    else:
+        context = {"paiements": paiements}
 
     return render(request, "plateforme/profile.html", context)
 
@@ -313,3 +318,21 @@ def search(request):
         return JsonResponse(data=data_dict, safe=False)
 
     return render(request, "plateforme/search.html", context)
+
+def search_user(request):
+    url_parameter = request.GET.get("q")
+
+    if url_parameter:
+        users = User.objects.filter(username__icontains=url_parameter)
+    else:
+        users = User.objects.none()
+
+    context = {'users': users}
+    if request.is_ajax():
+        html = render_to_string(
+            template_name="plateforme/users-results.html",
+            context=context
+        )
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
