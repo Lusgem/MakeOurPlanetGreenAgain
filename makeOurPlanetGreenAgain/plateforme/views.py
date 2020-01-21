@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from matplotlib.rcsetup import validate_nseq_float
 
 from makeOurPlanetGreenAgain import settings
+from .models import User
 from . import forms as f
 import logging
 from django.core.mail import send_mail, BadHeaderError
@@ -18,6 +19,7 @@ from financeurs.models import financeur, Paiement
 from .models import Commentaire
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from itertools import chain
 
 log = logging.getLogger(__name__)
 
@@ -25,7 +27,7 @@ log = logging.getLogger(__name__)
 def index(request):
     random_project_list = Projet.objects.order_by('?')[:5]
     context = {'random_project_list': random_project_list}
-    if (request.user.is_authenticated):
+    if request.user.is_authenticated:
         last_projects = financeur.objects.filter(utilisateur=request.user)
         paiement = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
         log.error(paiement.last().projet.nom)
@@ -35,6 +37,7 @@ def index(request):
                        "num_project": last_projects[0].projetsfinances.all().count(), "comments_project": comments,
                        "num_paiment": paiement.count()}
     return render(request, "plateforme/index.html", context)
+
 
 def profile(request):
     paiements = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
@@ -49,9 +52,10 @@ def profile(request):
     except EmptyPage:
         paiements = paginator.page(paginator.num_pages)
 
-    context = {"paiements" : paiements}
+    context = {"paiements": paiements}
 
     return render(request, "plateforme/profile.html", context)
+
 
 def contact(request):
     if request.method == 'GET':
@@ -146,9 +150,6 @@ def register_view(request):
     return render(request, 'plateforme/register.html')
 
 
-from itertools import chain
-
-
 def checkout_view(request):
     value = request.COOKIES.get('cart_projects')
 
@@ -190,14 +191,15 @@ def checkout_fund(request):
 
     financeur.objects.get_or_create(utilisateur=user)
     f = financeur.objects.get(utilisateur=user)
-    paiementList=[]
+    paiementList = []
 
     for item in list:
-        datep=datetime.datetime.now()
+        datep = datetime.datetime.now()
         Paiement.objects.create(id_user=user.id, date_paiement=datep,
                                 projet=Projet.objects.get(nom=item['0']),
                                 montant=int(search_dict(fundsToDict, str(item['0']) + "_fund")))
-        paiementList.append({"date_paiement": datep.__str__(), "project_name" :item['0'], "montant":int(search_dict(fundsToDict, str(item['0']) + "_fund"))})
+        paiementList.append({"date_paiement": datep.__str__(), "project_name": item['0'],
+                             "montant": int(search_dict(fundsToDict, str(item['0']) + "_fund"))})
 
         old_financement = int(Projet.objects.filter(nom=item['0'])[0].financement)
 
@@ -255,7 +257,7 @@ def cookie_add_to_cart(request):
 
 def cookie_remove_from_cart(request):
     projectName = request.POST["name"].replace("_cart", "")
-    log.error(projectName)
+
     value = request.COOKIES.get('cart_projects')
     if value != None:
         cookieToDict = json.loads(value.replace('\'', '\"'))
@@ -310,3 +312,21 @@ def search(request):
         return JsonResponse(data=data_dict, safe=False)
 
     return render(request, "plateforme/search.html", context)
+
+def search_user(request):
+    url_parameter = request.GET.get("q")
+
+    if url_parameter:
+        users = User.objects.filter(username__icontains=url_parameter)
+    else:
+        users = User.objects.none()
+
+    context = {'users': users}
+    if request.is_ajax():
+        html = render_to_string(
+            template_name="plateforme/users-results.html",
+            context=context
+        )
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)

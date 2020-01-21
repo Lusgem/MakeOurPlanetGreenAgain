@@ -6,9 +6,11 @@
     <div class="col my-3">
         <h1>Projets en cours de financement</h1>
     </div>
+   {% if user.is_authenticated %}
     <div class="col-2 my-4">
         <a href="{% url 'projet:add' %}" class="btn btn-primary">Add project</a>
     </div>
+    {% endif %}
 </div>
 
 {% if projects %}
