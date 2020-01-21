@@ -42,7 +42,7 @@
                                         </div>
                                     </div>
                                     <p class="mb-1 pr-5">{{ user_last_project.description|truncatewords_html:50 }}</p>
-                                    <small>Montant : {{ user_last_project.montant }} €</small>
+                                    <small>Amount : {{ user_last_project.montant }} €</small>
                                 </a>
 
                                 {% if comments_project %}
@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <p class="mb-1 pr-5">{{ random_project.description|truncatewords_html:50 }}</p>
-                                    <small>Montant : {{ random_project.montant }} €</small>
+                                    <small>Amount : {{ random_project.montant }} €</small>
                                 </a>
                                 {% endfor %}
                             </div>

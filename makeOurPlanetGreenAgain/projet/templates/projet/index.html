@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col my-3">
-        <h1>Projets en cours de financement</h1>
+        <h1>Projects under funding</h1>
     </div>
     <div class="col-2 my-4">
         <a href="{% url 'projet:add' %}" class="btn btn-primary">Add project</a>
@@ -20,7 +20,7 @@
             <small>{{ project.publication_date|date:"d F Y" }}</small>
         </div>
         <p class="mb-1 pr-5">{{ project.description|truncatewords_html:50 }}</p>
-        <small>Montant : {{ project.montant }} €</small>
+        <small>Amount : {{ project.montant }} €</small>
     </a>
 
     {% endfor %}

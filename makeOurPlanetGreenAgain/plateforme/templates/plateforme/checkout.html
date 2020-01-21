@@ -21,8 +21,8 @@
 
             $(".list_checkout").children().each(function () {
                 $('#recapBeforeCheckout').append(" <li class=\"list-group-item\">" +
-                                  "<br> <strong>Nom du projet : </strong> "+$(this).find(".projectName").text()+" " +
-                                  "<br> <strong>Montant : </strong> "+$(this).find("input").val()+" € " +
+                                  "<br> <strong>Project name : </strong> "+$(this).find(".projectName").text()+" " +
+                                  "<br> <strong>Amount : </strong> "+$(this).find("input").val()+" € " +
                                   "</li>")
             })
 
@@ -94,13 +94,13 @@
                                 });
                               $('#successPaiement').modal('show');
                               data["paiements"].forEach(element =>  $('#recapCheckout').append(" <li class=\"list-group-item\"><strong>Date de paiement : </strong> "+element["date_paiement"]+"" +
-                                  "<br> <strong>Nom du projet : </strong> "+element["project_name"]+" " +
-                                  "<br> <strong>Montant : </strong> "+element["montant"]+" € " +
+                                  "<br> <strong>Project name: </strong> "+element["project_name"]+" " +
+                                  "<br> <strong>Amount : </strong> "+element["montant"]+" € " +
                                   "</li>"))
                           },
                           error: function () {
                             console.log("error")
-                              alert("Paiement non abouti")
+                              alert("Payment not completed")
                           },
                           complete: function (data) {
 
@@ -125,7 +125,7 @@
                                       </small>
                                             </div>
                                             <p class="mb-1 pr-5">{{ item.description|truncatewords_html:50 }}</p>
-                                            <small>Montant : {{ item.montant }} €</small>
+                                            <small>Amount : {{ item.montant }} €</small>
                                         </a>
                                             <div class="row" >
 
@@ -164,7 +164,7 @@
         </button>
       </div>
       <div class="modal-body">
-          <p>Récapitulatif : </p>
+          <p>Recap : </p>
           <ul id="recapCheckout" class="list-group">
 
           </ul>
@@ -186,7 +186,7 @@
         </button>
       </div>
       <div class="modal-body">
-          <p>Récapitulatif : </p>
+          <p>Recap : </p>
           <ul id="recapBeforeCheckout" class="list-group">
           </ul>
       </div>

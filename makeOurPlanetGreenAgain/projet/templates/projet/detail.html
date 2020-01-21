@@ -98,16 +98,16 @@
                 {{ project.copyright.nom }}</small>
         </div>
         <div class="col-3">
-            <p class="lead">Montant : {{ project.montant }} €</p>
+            <p class="lead">Amount : {{ project.montant }} €</p>
             <hr>
-            <p>Membres du projet :</p>
+            <p>Members :</p>
             {% for membre in project.membres.all %}
             <p class="ml-3">{{ membre.first_name }} {{ membre.last_name }}</p>
             {% endfor %}
 
             {% if experts %}
                 <hr>
-                <p>Projet validé par :</p>
+                <p>Validated by :</p>
                 {% for expert in experts %}
                 <p class="ml-3">{{ expert.utilisateur.first_name }} {{ expert.utilisateur.last_name }}</p>
                 {% endfor %}
@@ -125,7 +125,7 @@
 
     <hr>
     <div class="mt-4">
-        <p class="font-weight-light">Commentaires :</p>
+        <p class="font-weight-light">Comments :</p>
          {% if user.is_authenticated %}
         <form class="form" action="" role="form" method="post">
             {% csrf_token %}

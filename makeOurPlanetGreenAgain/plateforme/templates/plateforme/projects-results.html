@@ -8,7 +8,7 @@
         </div>
         <p class="mb-1 pr-5">{{ project.description|truncatewords_html:50 }}</p>
         <div class="d-flex justify-content-between">
-            <small>Montant : {{ project.montant }} €</small>
+            <small>Amount : {{ project.montant }} €</small>
             {% ifequal project.financement project.montant %}
             <span class="badge badge-success">Finished</span>
             {% else %}
