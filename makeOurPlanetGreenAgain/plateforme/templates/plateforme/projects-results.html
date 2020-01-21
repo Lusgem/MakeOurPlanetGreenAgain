@@ -1,18 +1,5 @@
-{% extends "base.html" %}
-
-{% block content %}
-
-<div class="row">
-    <div class="col my-3">
-        <h1>Projets en cours de financement</h1>
-    </div>
-    <div class="col-2 my-4">
-        <a href="{% url 'projet:add' %}" class="btn btn-primary">Add project</a>
-    </div>
-</div>
-
 {% if projects %}
-<div class="list-group mx-4">
+<div class="list-group m-4">
     {% for project in projects %}
     <a href="{% url 'projet:detail' project.id %}" class="list-group-item list-group-item-action">
         <div class="d-flex justify-content-between">
@@ -20,7 +7,14 @@
             <small>{{ project.publication_date|date:"d F Y" }}</small>
         </div>
         <p class="mb-1 pr-5">{{ project.description|truncatewords_html:50 }}</p>
-        <small>Montant : {{ project.montant }} €</small>
+        <div class="d-flex justify-content-between">
+            <small>Montant : {{ project.montant }} €</small>
+            {% ifequal project.financement project.montant %}
+            <span class="badge badge-success">Finished</span>
+            {% else %}
+            <span class="badge badge-warning">In progress</span>
+            {% endifequal %}
+        </div>
     </a>
 
     {% endfor %}
@@ -29,7 +23,8 @@
 <p class="lead">There is no project yet. Add one !</p>
 {% endif %}
 
-<div class="m-4">
+<!-- TODO save q object in links -->
+<div id="pagination-div" class="m-4">
 {% if projects.has_other_pages %}
     <nav aria-label="Pagination">
         <ul class="pagination">
@@ -54,5 +49,3 @@
     </nav>
 {% endif %}
 </div>
-
-{% endblock %}

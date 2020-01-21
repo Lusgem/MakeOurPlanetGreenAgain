@@ -13,5 +13,7 @@ urlpatterns = [
     path('latest/feed/', ProjectsFeed(), name='rss_view'),
     path('add_to_cart/', views.cookie_add_to_cart, name='add_to_cart'),
     path('remove_from_cart/', views.cookie_remove_from_cart, name='remove_from_cart'),
-    path('checkout/',views.checkout_view,name="checkout_view")
+    path('checkout/',views.checkout_view,name="checkout_view"),
+    path('checkout_fund/',views.checkout_fund,name="checkout_fund"),
+    path('search/', views.search, name='search')
 ]

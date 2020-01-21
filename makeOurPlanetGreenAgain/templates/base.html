@@ -43,7 +43,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" role="navigation" >
     <div class="container">
-        <a class="navbar-brand" href="#">GreenAgain</a>
+        <a class="navbar-brand" href="/">GreenAgain</a>
         <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
             &#9776;
             </button>
@@ -52,7 +52,7 @@
                   <li class="nav-item"><a href="{% url 'plateforme:index'%}" class="nav-link">Accueil</a></li>
                   <li class="nav-item"><a href="{% url 'projet:index'%}" class="nav-link">Liste des projets</a></li>
                   <li class="nav-item"><a href="{% url 'plateforme:contact'%}" class="nav-link">Contact</a></li>
-                  <li class="nav-item"><a href="#" class="nav-link">Archives</a></li>
+                  <li class="nav-item"><a href="{% url 'plateforme:search'%}" class="nav-link">Recherche</a></li>
                   <li class="nav-item"><a href="{% url 'plateforme:credits'%}" class="nav-link">Crédits</a></li>
                </ul>
                <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
@@ -169,8 +169,8 @@
 
 
             $(document).on('click','.button-cart-remove',function(e) {
-
-
+                $("#"+this.id+"_row").fadeOut()
+                $("#"+this.id+"_row").remove()
                 $.ajax({
                     type: "POST",
                     beforeSend: function(request) {
@@ -189,7 +189,7 @@
                       }
                     })
 
-                $("#"+this.id+"_row").remove()
+
             })
 
            </script>

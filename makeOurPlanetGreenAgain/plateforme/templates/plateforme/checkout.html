@@ -2,38 +2,200 @@
 
 {% block content %}
 
+<script>
+        $(document).on('change','input',function() {
 
+                 if(this.value > parseInt(this.max)){
+                     this.value=this.max
+                 }
+            });
+
+        $(document).on('click','#btnCheckoutbefore',function(e) {
+            $('#recapBeforeCheckout').empty()
+             if($(".list_checkout").children().length <=0){
+
+                  $('#recapBeforeCheckout').append(" <li class=\"list-group-item\">Basket is empty !!!</li>")
+                  $('#btnCheckout').hide()
+             }
+             else{
+
+            $(".list_checkout").children().each(function () {
+                $('#recapBeforeCheckout').append(" <li class=\"list-group-item\">" +
+                                  "<br> <strong>Nom du projet : </strong> "+$(this).find(".projectName").text()+" " +
+                                  "<br> <strong>Montant : </strong> "+$(this).find("input").val()+" € " +
+                                  "</li>")
+            })
+
+                  $('#btnCheckout').show()
+             }
+
+
+            $('#validPaiement').modal('show');
+
+
+             })
+
+        $(document).on('click','.button-checkout-remove',function(e) {
+
+               $.ajax({
+                    type: "POST",
+                    beforeSend: function(request) {
+                        request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    },
+                    url: '{% url "plateforme:remove_from_cart" %}',
+                    dataType: "json",
+                    data: {"name" :this.id},
+                      success: function () {
+
+                      },
+                      error: function () {
+                        alert("Impossible d'ajouter au panier.")
+                      },
+                      complete: function (data) {
+
+                      }
+                    })
+
+                $("#"+this.id+"_row").remove()
+                $("#"+this.id+"_checkout").fadeOut()
+                $("#"+this.id+"_checkout").remove()
+
+                if($(".list_checkout").children().length ==0){
+                    $(".card").append('<p class="lead ml-2">There is no project in your basket. <a href="{% url "projet:index" %}">Finance one !</a></p>')
+                }
+            })
+
+         $(document).on('click','#btnCheckout',function(e) {
+
+
+
+              if($(".list_checkout").children().length >0){
+
+                  funds =$(".list_checkout").find(".fund")
+
+                  data =[]
+
+                  for (i=0;i<funds.length;i++){
+                      data.push({ "id" : funds[i].id, "amount" : funds[i].value });
+                  }
+
+                   $.ajax({
+                        type: "POST",
+                        beforeSend: function(request) {
+                            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        },
+                        url: '{% url "plateforme:checkout_fund" %}',
+                        dataType: "json",
+                        data: {"data" : JSON.stringify(data) },
+                          success: function (data) {
+
+                              $( ".button-checkout-remove" ).each(function( index ) {
+                                 this.click()
+                                });
+                              $('#successPaiement').modal('show');
+                              data["paiements"].forEach(element =>  $('#recapCheckout').append(" <li class=\"list-group-item\"><strong>Date de paiement : </strong> "+element["date_paiement"]+"" +
+                                  "<br> <strong>Nom du projet : </strong> "+element["project_name"]+" " +
+                                  "<br> <strong>Montant : </strong> "+element["montant"]+" € " +
+                                  "</li>"))
+                          },
+                          error: function () {
+                            console.log("error")
+                              alert("Paiement non abouti")
+                          },
+                          complete: function (data) {
+
+                          }
+                    })
+              }
+
+         })
+</script>
 <div class="card mt-2">
                         <div  class="card-header mb-2"> <h2> Cart projects : </h2></div>
 
                             {% if cart %}
-                            <div class=" mx-4 my-2">
+                            <div class="list_checkout mx-4 my-2 " style="text-align: right">
                                 {% for item in cart %}
-                                <a href="{% url 'projet:detail' item.id %}" class="list-group-item list-group-item-action">
-                                    <div class="d-flex justify-content-between ">
-                                        <h5 class="mb-1">{{ item.nom }}</h5>
-                                        <small>{{ item.publication_date|date:"d F Y" }}</small>
+                                    <div id="{{item.nom}}_cart_checkout">
+                                    <button id="{{ item.nom }}_cart" class="button-checkout-remove btn btn-outline-secondary btn-danger text-light ml-5 mb-2"><strong>X</strong></button>
+                                        <a href="{% url 'projet:detail' item.id %}" class="list-group-item list-group-item-action" style="text-align: left">
+                                            <div class="d-flex justify-content-between ">
+                                                <h5 class="mb-1 projectName">{{ item.nom }}</h5>
+                                                <small> Publication date : {{ item.publication_date|date:"d F Y" }}
+                                      </small>
+                                            </div>
+                                            <p class="mb-1 pr-5">{{ item.description|truncatewords_html:50 }}</p>
+                                            <small>Montant : {{ item.montant }} €</small>
+                                        </a>
+                                            <div class="row" >
+
+                                                <div class="input-group mb-3 col-12 d-flex justify-content-end mt-3 "  >
+                                                     {% load marktags %}
+                                                    <div class="d-flex justify-content-end mt-2 mr-5" ><strong>Max amount : </strong> {% subtractify item %} <strong>€</strong> </div>
+                                                  <div class="input-group-prepend ">
+                                                    <span class="input-group-text border-info ">€</span>
+                                                  </div>
+                                                  <input id="{{ item.nom }}_fund" type="number"  min="1" max="{% subtractify item %}" value=1 class="fund border   border-info"  style="text-align: right; width:20%">
+                                                  <div class="input-group-append">
+                                                    <span class="input-group-text border-info"> </span>
+                                                  </div>
+                                                </div>
+                                            </div>
                                     </div>
-                                    <p class="mb-1 pr-5">{{ item.description|truncatewords_html:50 }}</p>
-                                    <small>Montant : {{ item.montant }} €</small>
-                                </a>
                                 {% endfor %}
                             </div>
                             {% else %}
-                                <p class="lead ml-2">There is no project in your basket. <a href="{% url 'projet:index' %}">Add one !</a></p>
+                                <p class="lead ml-2 mt-3">There is no project in your basket. <a href="{% url 'projet:index' %}">Finance one !</a></p>
                             {% endif %}
+</div>
 
-{% comment %}                         {% if random_project_list %}
-                             {% for random_project in random_project_list %}
-                                      <div id="{{ random_project.id }}" class=" project card border-dark mt-4 ml-4 mr-4 mb-1">
-                                        <div class="card-header"> <h2>{{ random_project.nom }} : </h2></div>
-                                        <div class="card-body">{{ random_project.description }} </div>
-                                        </div>
-                             {% endfor %}
+    <div class="container-fluid" style="text-align: center">
+    <button id="btnCheckoutbefore" class="btn btn-outline-success w-25 mt-3" type="button">Checkout !</button>
+    </div>
 
-                         {% else %}
-                            <div class="card-body">no project now...</div>
-                         {% endif %}{% endcomment %}
-                    </div>
+
+<div id="successPaiement" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title"><strong>Panier vidé !</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>Récapitulatif : </p>
+          <ul id="recapCheckout" class="list-group">
+
+          </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Thank you !</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div id="validPaiement" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title"><strong>Confirm your purchase : </strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>Récapitulatif : </p>
+          <ul id="recapBeforeCheckout" class="list-group">
+          </ul>
+      </div>
+      <div class="modal-footer">
+          <button id="btnCheckout" type="button" class="btn btn-success" data-dismiss="modal">Pay !</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Go back</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
