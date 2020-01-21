@@ -2,12 +2,14 @@ import datetime
 import json
 import logging
 
+from django.db.models import QuerySet
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
-from itertools import chain
 from expert.models import Expert
+from makeOurPlanetGreenAgain import settings
+from .models import User
 from . import forms as f
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
@@ -16,6 +18,7 @@ from financeurs.models import financeur, Paiement
 from .models import Commentaire
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from itertools import chain
 
 log = logging.getLogger(__name__)
 
@@ -26,6 +29,7 @@ def index(request):
     if request.user.is_authenticated:
         last_projects = financeur.objects.filter(utilisateur=request.user)
         paiement = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
+
         if paiement.count() > 0:
             comments = Commentaire.objects.filter(projet=paiement.last().projet)[:5]
             context = {'random_project_list': random_project_list, "user_last_project": paiement.last().projet,
@@ -254,7 +258,7 @@ def cookie_add_to_cart(request):
 
 def cookie_remove_from_cart(request):
     projectName = request.POST["name"].replace("_cart", "")
-    log.error(projectName)
+
     value = request.COOKIES.get('cart_projects')
     if value != None:
         cookieToDict = json.loads(value.replace('\'', '\"'))

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import F
@@ -8,6 +9,7 @@ from expert.models import Expert
 from plateforme.models import Commentaire
 from plateforme.forms import CommentForm
 import logging
+from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
 
@@ -60,14 +62,31 @@ def detail(request, project_id):
 
 
 def add(request):
+
     if request.method == 'GET':
         form = ProjectForm()
     else:
         form = ProjectForm(request.POST)
         if form.is_valid():
-            form.save()
+            log.error(request.POST)
+            cpt=0
+            for key in request.POST:
+                if '_item' in key:
+                    cpt+=1
+            if cpt >0 :
+                form.save()
+                p= Projet.objects.get(nom=request.POST['nom'])
+
+                if p :
+                    for key in request.POST:
+                        if'_item' in key:
+                            p.membres.add(User.objects.get(username=request.POST[key]))
+                            p.save()
+            else :
+                return render(request, "projet/add.html" ,{"error" : "Missing members field"})
         else:
-            log.error(form.errors)
+            return render(request, "projet/add.html", {"error": form.errors})
+
         return redirect('projet:index')
 
     return render(request, "projet/add.html", {'form': form})

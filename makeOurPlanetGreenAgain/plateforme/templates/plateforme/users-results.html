@@ -1,0 +1,16 @@
+{% if users %}
+<div class="list-group m-4">
+    {% for user_i in users %}
+    <div  class="user-row list-group-item list-group-item-action">
+        <div class="d-flex justify-content-between">
+            <h5  id="username_d" class=" mb-1">{{ user_i.username }}</h5>
+            <button class="btn btn-warning" >Add as member</button>
+        </div>
+
+    </div>
+
+    {% endfor %}
+</div>
+{% else %}
+<p class="lead">No user found !</p>
+{% endif %}
