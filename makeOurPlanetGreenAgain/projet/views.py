@@ -4,6 +4,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import F
 from .models import Projet
 from .forms import ProjectForm
+from plateforme.models import Commentaire
+from plateforme.forms import CommentForm
 import logging
 
 log = logging.getLogger(__name__)
@@ -29,7 +31,20 @@ def index(request):
 
 def detail(request, project_id):
     project = get_object_or_404(Projet, pk=project_id)
-    context = {'project': project}
+    comments = Commentaire.objects.filter(projet__exact=project).order_by('-publication_date')
+
+    if request.method == 'GET':
+        form = CommentForm()
+    else:
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.utilisateur = request.user
+            comment.projet = project
+            comment.save()
+            return redirect('projet:detail', project_id=project_id)
+
+    context = {'project': project, 'comments': comments, 'form': form}
     return render(request, "projet/detail.html", context)
 
 
