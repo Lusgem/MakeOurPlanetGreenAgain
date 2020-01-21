@@ -19,7 +19,7 @@
 
                 {% if user.is_authenticated %}
                     <div class="text-center mt-2 lead">
-                        <p class=""> Hello <strong>{{ user.username }}</strong> you have contributed to <strong>{{num_project}}</strong> project(s) with <strong>{{num_paiment}}</strong> paiements .</p>
+                        <p class=""> Hello <strong>{{ user.username }}</strong> you have contributed to <strong>{{num_project|default:'0'}}</strong> project(s) with <strong>{{num_paiment|default:'0'}}</strong> paiements .</p>
                     </div>
 
 
