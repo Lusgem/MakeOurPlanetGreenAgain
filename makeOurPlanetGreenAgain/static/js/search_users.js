@@ -1,8 +1,8 @@
-const search_input = $("#search-input-user")
-const projects_div = $("#users-div")
-const endpoint = '/search_users/'
-const delay = 100
-let scheduled_function = false
+const search_input = $("#search-input-user");
+const projects_div = $("#users-div");
+const endpoint = '/search_users/';
+const delay = 100;
+let scheduled_function = false;
 
 let ajax_call = function(endpoint, request_parameters) {
     $.getJSON(endpoint, request_parameters)
@@ -12,7 +12,7 @@ let ajax_call = function(endpoint, request_parameters) {
                 projects_div.fadeTo('fast',1)
             })
         })
-}
+};
 
 search_input.on('keyup', function() {
     const request_parameters = {
@@ -24,4 +24,4 @@ search_input.on('keyup', function() {
     }
 
     scheduled_function = setTimeout(ajax_call, delay, endpoint, request_parameters)
-})
+});
