@@ -1,0 +1,4 @@
+Django==2.2.7
+mysql==0.0.2
+mysqlclient==1.4.6
+gunicorn==20.0.4
