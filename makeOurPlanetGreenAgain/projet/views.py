@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import F
@@ -84,4 +83,5 @@ def validate(request, project_id):
     else:
         expert.validated_projects.add(validated_project)
         expert.save()
+
     return redirect('projet:detail', project_id=project_id)

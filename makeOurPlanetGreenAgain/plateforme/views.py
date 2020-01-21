@@ -1,14 +1,14 @@
 import datetime
 import json
+import logging
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
-
+from itertools import chain
 from expert.models import Expert
 from . import forms as f
-import logging
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from projet.models import Projet
@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 def index(request):
     random_project_list = Projet.objects.order_by('?')[:5]
     context = {'random_project_list': random_project_list}
-    if (request.user.is_authenticated):
+    if request.user.is_authenticated:
         last_projects = financeur.objects.filter(utilisateur=request.user)
         paiement = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
         if paiement.count() > 0:
@@ -32,6 +32,7 @@ def index(request):
                        "num_project": last_projects[0].projetsfinances.all().count(), "comments_project": comments,
                        "num_paiment": paiement.count()}
     return render(request, "plateforme/index.html", context)
+
 
 def profile(request):
     paiements = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
@@ -51,6 +52,7 @@ def profile(request):
     context = {"paiements": paiements, "validated_projects": expert.validated_projects.all()}
 
     return render(request, "plateforme/profile.html", context)
+
 
 def contact(request):
     if request.method == 'GET':
@@ -86,6 +88,7 @@ def login_view(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = f.LoginForm(request.POST)
+
         # check whether it's valid:
         if form.is_valid():
             username = form['username'].value()
@@ -145,9 +148,6 @@ def register_view(request):
     return render(request, 'plateforme/register.html')
 
 
-from itertools import chain
-
-
 def checkout_view(request):
     value = request.COOKIES.get('cart_projects')
 
@@ -189,14 +189,18 @@ def checkout_fund(request):
 
     financeur.objects.get_or_create(utilisateur=user)
     f = financeur.objects.get(utilisateur=user)
-    paiementList=[]
+    paiementList = []
 
     for item in list:
-        datep=datetime.datetime.now()
+        datep = datetime.datetime.now()
         Paiement.objects.create(id_user=user.id, date_paiement=datep,
                                 projet=Projet.objects.get(nom=item['0']),
                                 montant=int(search_dict(fundsToDict, str(item['0']) + "_fund")))
-        paiementList.append({"date_paiement": datep.__str__(), "project_name" :item['0'], "montant":int(search_dict(fundsToDict, str(item['0']) + "_fund"))})
+        paiementList.append({
+            "date_paiement": datep.__str__(),
+            "project_name": item['0'],
+            "montant": int(search_dict(fundsToDict, str(item['0']) + "_fund"))
+        })
 
         old_financement = int(Projet.objects.filter(nom=item['0'])[0].financement)
 
@@ -205,10 +209,6 @@ def checkout_fund(request):
         Projet.objects.filter(nom=item['0']).update(financement=new_financement)
         f.projetsfinances.add(Projet.objects.get(nom=item['0']))
         f.save()
-
-    # add to financeur
-
-    # update project financement
 
     json_data = json.dumps({"HTTPRESPONSE": "ok", "paiements": paiementList})
     response = HttpResponse(json_data, content_type="application/json")

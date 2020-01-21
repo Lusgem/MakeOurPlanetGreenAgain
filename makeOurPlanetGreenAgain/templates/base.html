@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Make our planet green again</title>
-    
-        <script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-    
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+
     {% load static %}
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     {% load static %}
@@ -39,127 +39,135 @@
     return cookieValue;
 }
 
+
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" role="navigation" >
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" role="navigation">
     <div class="container">
         <a class="navbar-brand" href="/">GreenAgain</a>
         <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
             &#9776;
-            </button>
-            <div class="collapse navbar-collapse" id="exCollapsingNavbar">
-               <ul class="nav navbar-nav">
-                  <li class="nav-item"><a href="{% url 'plateforme:index'%}" class="nav-link">Homepage</a></li>
-                  <li class="nav-item"><a href="{% url 'projet:index'%}" class="nav-link">Projects list</a></li>
-                  <li class="nav-item"><a href="{% url 'plateforme:contact'%}" class="nav-link">Contact</a></li>
-                  <li class="nav-item"><a href="{% url 'plateforme:search'%}" class="nav-link">Search</a></li>
-                  <li class="nav-item"><a href="{% url 'plateforme:credits'%}" class="nav-link">Legal</a></li>
-               </ul>
-               <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-                  <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
+        </button>
+        <div class="collapse navbar-collapse" id="exCollapsingNavbar">
+            <ul class="nav navbar-nav">
+                <li class="nav-item"><a href="{% url 'plateforme:index'%}" class="nav-link">Homepage</a></li>
+                <li class="nav-item"><a href="{% url 'projet:index'%}" class="nav-link">Projects list</a></li>
+                <li class="nav-item"><a href="{% url 'plateforme:contact'%}" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="{% url 'plateforme:search'%}" class="nav-link">Search</a></li>
+                <li class="nav-item"><a href="{% url 'plateforme:credits'%}" class="nav-link">Legal</a></li>
+            </ul>
+            <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+                <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i
+                        class="fa fa-cog fa-fw fa-lg"></i></a></li>
 
-                   {% if user.is_authenticated %}
-                        <li class=" order-1">
-                           <form class="form" role="form" method="post" action="/logout/">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-secondary btn-danger text-light">Logout</button>
-                           </form>
-                        </li>
-                       <li class=" order-1">
-                           <form class="form" role="form" method="post" action="/profile/?page=1">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-secondary btn-info text-light">
-                                    <img src="{% static 'img/profile.png' %}" width="20" />
-                                </button>
-                           </form>
-                        </li>
-                       <li  class="order-sm-3 ml-5" >
-                        {% load static %}
-                           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalCart">
-                                 <img src="{% static 'img/cart.png' %}" width="20" />
-                           </button>
-                       </li>
+                {% if user.is_authenticated %}
+                <li class=" order-1">
+                    <form class="form" role="form" method="post" action="/logout/">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary btn-danger text-light">Logout</button>
+                    </form>
+                </li>
+                <li class=" order-1">
+                    <form class="form" role="form" method="post" action="/profile/?page=1">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary btn-info text-light">
+                            <img src="{% static 'img/profile.png' %}" width="20"/>
+                        </button>
+                    </form>
+                </li>
+                <li class="order-sm-3 ml-5">
+                    {% load static %}
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalCart">
+                        <img src="{% static 'img/cart.png' %}" width="20"/>
+                    </button>
+                </li>
 
-                   {% else %}
-                  <li class="dropdown order-1">
-                     <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle btn-success text-light">Login <span class="caret"></span></button>
-                     <ul class="dropdown-menu dropdown-menu-right mt-2">
+                {% else %}
+                <li class="dropdown order-1">
+                    <button type="button" id="dropdownMenu1" data-toggle="dropdown"
+                            class="btn btn-outline-secondary dropdown-toggle btn-success text-light">Login <span
+                            class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right mt-2">
                         <li class="px-3 py-2">
-                           <form class="form" role="form" method="post" action="/auth/">
-                              <div class="form-group">
-                                 <input id="emailInput" name="username" placeholder="Email" class="form-control form-control-sm" type="text" required="">
-                              </div>
-                              <div class="form-group">
-                                 <input id="passwordInput" type="password" name="password" placeholder="Password" class="form-control form-control-sm" type="text" required="">
-                              </div>
-                              <div class="form-group">
-                                 {% csrf_token %}
-                                 <button type="submit" class="btn btn-primary btn-block">Login</button>
-                              </div>
-                              <div class="form-group text-center">
-                                 <small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>
-                              </div>
-                           </form>
+                            <form class="form" role="form" method="post" action="/auth/">
+                                <div class="form-group">
+                                    <input id="emailInput" name="username" placeholder="Email"
+                                           class="form-control form-control-sm" type="text" required="">
+                                </div>
+                                <div class="form-group">
+                                    <input id="passwordInput" type="password" name="password" placeholder="Password"
+                                           class="form-control form-control-sm" type="text" required="">
+                                </div>
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                </div>
+                                <div class="form-group text-center">
+                                    <small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot
+                                        password?</a></small>
+                                </div>
+                            </form>
                         </li>
-                     </ul>
+                    </ul>
 
-                  </li>
-                   <li class="pl-1 ">
-                       <form class="form" role="form" method="get" action="/register/">
-                           <button type="submit" class="btn btn-outline-secondary btn-info text-light">Sign in</button>
-                       </form>
-                   </li>
+                </li>
+                <li class="pl-1 ">
+                    <form class="form" role="form" method="get" action="/register/">
+                        <button type="submit" class="btn btn-outline-secondary btn-info text-light">Sign in</button>
+                    </form>
+                </li>
 
-                   {% endif %}
-               </ul>
-            </div>
-         </div>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </nav>
 
-<div id="modalPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h3>Forgot password</h3>
-                  <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
-               </div>
-               <div class="modal-body">
-                  <p>Reset your password..</p>
-               </div>
-               <div class="modal-footer">
-                  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                  <button class="btn btn-primary">Save changes</button>
-               </div>
+<div id="modalPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Forgot password</h3>
+                <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-         </div>
-      </div>
+            <div class="modal-body">
+                <p>Reset your password..</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal: modalCart -->
 <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <!--Header-->
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Your project(s) cart : </h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <!--Body-->
-      <div class="modal-body">
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Your project(s) cart : </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
 
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Project name</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody id="cartList">
- {% load marktags %}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Project name</th>
+                        <th>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody id="cartList">
+                    {% load marktags %}
 
-           <script>
+                    <script>
                 var list_p= new String("{{request.COOKIES.cart_projects }}").replace(/\&#39;/g,"\"")
                 if(list_p){
                      var js=JSON.parse(list_p)
@@ -201,34 +209,35 @@
 
             })
 
-           </script>
-          <p></p>
 
-          </tbody>
-        </table>
+                    </script>
+                    <p></p>
 
-      </div>
-      <!--Footer-->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-          <form class="form" role="form" method="post" action="/checkout/">
-              {% csrf_token %}
-              <button class="btn btn-primary">Checkout</button>
-          </form>
+                    </tbody>
+                </table>
 
-      </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                <form class="form" role="form" method="post" action="/checkout/">
+                    {% csrf_token %}
+                    <button class="btn btn-primary">Checkout</button>
+                </form>
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 {% endblock %}
-      <div class="container-fluid">
-         {% block content %}
-         {% endblock %}
-      </div>
-      {% block footer%}
-      <footer>
-      </footer>
-   </body>
+<div class="container-fluid">
+    {% block content %}
+    {% endblock %}
+</div>
+{% block footer%}
+<footer>
+</footer>
+</body>
 </html>
 {% endblock %}

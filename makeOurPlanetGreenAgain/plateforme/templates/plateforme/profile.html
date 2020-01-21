@@ -57,7 +57,7 @@
         {% if validated_projects %}
         <p><strong>Validated projects :</strong></p>
         <div class="list-group">
-            {% for project in  validated_projects%}
+            {% for project in validated_projects%}
             <a href="{% url 'projet:detail' project.id %}" class="list-group-item list-group-item-action">
                 <div class="d-flex justify-content-between">
                     <p class="mb-1">{{ project.nom }}</p>

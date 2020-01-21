@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from copyright.models import Copyright
 from datetime import datetime
 
-# Create your models here.
-
 
 class Projet(models.Model):
 	nom = models.CharField(max_length=20)
