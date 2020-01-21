@@ -3,108 +3,111 @@
 {% block content %}
 
 
-    <script>
+<script>
       $(document).on('click','.project',function(e) {
             document.location.href = "/projets/"+this.id+"/"
         });
-    </script>
-    {% load static %}
 
-    <div  class="text-center" >
-        <a href="{%url 'plateforme:rss_view' %}" height="42" width="42" style="display: inline-block" >
-            <img src="{% static 'img/rss-feed.png' %}"  height="42" width="42" class="rounded mx-auto d-block mt-2"/>
+
+</script>
+{% load static %}
+
+<div class="text-center">
+    <a href="{%url 'plateforme:rss_view' %}" height="42" width="42" style="display: inline-block">
+        <img src="{% static 'img/rss-feed.png' %}" height="42" width="42" class="rounded mx-auto d-block mt-2"/>
+    </a>
+</div>
+{% if user.is_authenticated %}
+<div class="text-center mt-2 lead">
+    <p class=""> Hello <strong>{{ user.username }}</strong> you have contributed to
+        <strong>{{num_project|default:'0'}}</strong> project(s) with <strong>{{num_paiment|default:'0'}}</strong>
+        paiements .</p>
+</div>
+
+
+<div class="card mt-2">
+    <div class="card-header"><h2> Last projects funded : </h2></div>
+    <div class="card-body">
+
+        {% if user_last_project %}
+
+        <a href="{% url 'projet:detail' user_last_project.id %}"
+           class=" border-dark list-group-item list-group-item-action" style="border-width:3px">
+            <div id="{{ user_last_project.id }}" class="d-flex justify-content-between ">
+                <h5 class="mb-1">{{ user_last_project.nom }}</h5>
+
+                <div><small>{{ user_last_project.publication_date|date:"d F Y" }}</small>
+                    {% if user_last_project.financement == user_last_project.montant %}
+                    <span class="badge badge-success">Finished </span>
+                    {% else %}
+                    <span class="badge badge-warning">In progress</span>
+                    {% endif %}
+                </div>
+            </div>
+            <p class="mb-1 pr-5">{{ user_last_project.description|truncatewords_html:50 }}</p>
+            <small>Amount : {{ user_last_project.montant }} €</small>
         </a>
+
+        {% if comments_project %}
+        <div class="card-body"> Comment(s) :</div>
+        {% for comment in comments_project %}
+        <p class="ml-4"><strong>{{ comment.utilisateur.username }}</strong> : {{ comment.content }} </p>
+        {% endfor %}
+        {% else %}
+        <div class="card-body"> No comments.</div>
+        {% endif %}
+
+        {% else %}
+        No project funded.
+        {% endif %}
     </div>
+</div>
+{% else %}
+<div class="card mt-2">
+    <div class="card-header">Create an account / connect to your account ! for more content !</div>
+</div>
+{% endif %}
 
 
-                {% if user.is_authenticated %}
-                    <div class="text-center mt-2 lead">
-                        <p class=""> Hello <strong>{{ user.username }}</strong> you have contributed to <strong>{{num_project|default:'0'}}</strong> project(s) with <strong>{{num_paiment|default:'0'}}</strong> paiements .</p>
-                    </div>
+<div class="card mt-2">
+    <div class="card-header mb-2"><h2> Random projects : </h2></div>
 
+    {% if random_project_list %}
+    <div class=" mx-4 my-2">
+        {% for random_project in random_project_list %}
+        <a href="{% url 'projet:detail' random_project.id %}" class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between ">
+                <h5 class="mb-1">{{ random_project.nom }}</h5>
 
-                     <div class="card mt-2">
-                        <div  class="card-header"> <h2> Last projects funded : </h2></div>
-                        <div class="card-body">
+                <div><small>{{ random_project.publication_date|date:"d F Y" }}</small>
+                    {% if random_project.financement == random_project.montant %}
+                    <span class="badge badge-success">Finished </span>
+                    {% else %}
+                    <span class="badge badge-warning">In progress</span>
+                    {% endif %}
+                </div>
+            </div>
+            <p class="mb-1 pr-5">{{ random_project.description|truncatewords_html:50 }}</p>
+            <small>Amount : {{ random_project.montant }} €</small>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="lead">There is no project yet. Add one !</p>
+    {% endif %}
 
-                            {% if user_last_project %}
+    {% comment %} {% if random_project_list %}
+    {% for random_project in random_project_list %}
+    <div id="{{ random_project.id }}" class=" project card border-dark mt-4 ml-4 mr-4 mb-1">
+        <div class="card-header"><h2>{{ random_project.nom }} : </h2></div>
+        <div class="card-body">{{ random_project.description }}</div>
+    </div>
+    {% endfor %}
 
-                                <a href="{% url 'projet:detail' user_last_project.id %}" class=" border-dark list-group-item list-group-item-action" style="border-width:3px">
-                                    <div id="{{ user_last_project.id }}" class="d-flex justify-content-between ">
-                                        <h5 class="mb-1">{{ user_last_project.nom }}</h5>
-
-                                        <div><small>{{ user_last_project.publication_date|date:"d F Y" }}</small>
-                                            {% if user_last_project.financement == user_last_project.montant %}
-                                                <span class="badge badge-success">Finished </span>
-                                            {% else %}
-                                                <span class="badge badge-warning">In progress</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <p class="mb-1 pr-5">{{ user_last_project.description|truncatewords_html:50 }}</p>
-                                    <small>Montant : {{ user_last_project.montant }} €</small>
-                                </a>
-
-                                {% if comments_project %}
-                                     <div class="card-body"> Comment(s) : </div>
-                                    {% for comment in comments_project %}
-                                        <p class="ml-4"> <strong>{{ comment.utilisateur.username }}</strong> : {{ comment.content }} </p>
-                                    {% endfor %}
-                                {% else %}
-                                     <div class="card-body"> No comments. </div>
-                                {% endif %}
-
-                                {% else %}
-                                    No project funded.
-                                {% endif %}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="card mt-2">
-                        <div class="card-header">Create an account / connect to your account ! for more content !</div>
-                    </div>
-                {% endif %}
-
-
-                     <div class="card mt-2">
-                        <div  class="card-header mb-2"> <h2> Random projects : </h2></div>
-
-                            {% if random_project_list %}
-                            <div class=" mx-4 my-2">
-                                {% for random_project in random_project_list %}
-                                <a href="{% url 'projet:detail' random_project.id %}" class="list-group-item list-group-item-action">
-                                    <div class="d-flex justify-content-between ">
-                                        <h5 class="mb-1">{{ random_project.nom }}</h5>
-
-                                        <div><small>{{ random_project.publication_date|date:"d F Y" }}</small>
-                                            {% if random_project.financement == random_project.montant %}
-                                                <span class="badge badge-success">Finished </span>
-                                            {% else %}
-                                                <span class="badge badge-warning">In progress</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <p class="mb-1 pr-5">{{ random_project.description|truncatewords_html:50 }}</p>
-                                    <small>Montant : {{ random_project.montant }} €</small>
-                                </a>
-                                {% endfor %}
-                            </div>
-                            {% else %}
-                            <p class="lead">There is no project yet. Add one !</p>
-                            {% endif %}
-
-{% comment %}                         {% if random_project_list %}
-                             {% for random_project in random_project_list %}
-                                      <div id="{{ random_project.id }}" class=" project card border-dark mt-4 ml-4 mr-4 mb-1">
-                                        <div class="card-header"> <h2>{{ random_project.nom }} : </h2></div>
-                                        <div class="card-body">{{ random_project.description }} </div>
-                                        </div>
-                             {% endfor %}
-
-                         {% else %}
-                            <div class="card-body">no project now...</div>
-                         {% endif %}{% endcomment %}
-                    </div>
+    {% else %}
+    <div class="card-body">no project now...</div>
+    {% endif %}{% endcomment %}
+</div>
 
 
 {% endblock %}

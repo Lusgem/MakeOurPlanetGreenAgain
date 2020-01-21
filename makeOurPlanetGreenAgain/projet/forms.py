@@ -6,7 +6,7 @@ from .models import Projet
 class ProjectForm(forms.ModelForm):
     nom = forms.CharField(required=True)
     # TODO ajout membres
-    # membres = forms.ModelMultipleChoiceField(queryset=User.objects.all())
+    #membres = forms.ModelMultipleChoiceField(queryset=User.objects.all())
     montant = forms.IntegerField(required=True)
     description = forms.CharField(required=True)
     # TODO ajout copyright

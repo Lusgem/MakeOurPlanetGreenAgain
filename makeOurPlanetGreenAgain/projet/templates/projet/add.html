@@ -1,8 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<style>
+.my-custom-scrollbar {
+position: relative;
+height: 200px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+</style>
 <h1 class="my-3">Nouveau projet</h1>
+<script>
+
+    $(document).on('click','.user-row',function(e) {
+
+        if($("#users-list").children("#"+$(this).find("#username_d").text()+"_row").text()==""){
+
+             $("#users-list").append("<tr id="+$(this).find("#username_d").text()+"_row>" +
+            "        <td> <input type=\"hidden\" name='"+$(this).find("#username_d").text()+"_item' value='"+$(this).find("#username_d").text()+"' />"+$(this).find("#username_d").text()+"</td>" +
+            "        <td> <button class='remove_user btn btn-danger' type='button'><strong>x</strong></button </td>" +
+            "      </tr>")
+        }
+
+    });
+
+    $(document).on('click','.remove_user',function(e) {
+
+        $($($(this).parent()).parent()).remove()
+    })
+</script>
+
 
 <form class="form" action="" role="form" method="post" id="project_form">
     {% csrf_token %}
@@ -18,16 +47,38 @@
         <input id="montantInput" name="montant" placeholder="Montant" class="form-control form-control-sm" type="number"
                required="">
     </div>
+    {% load static %}
+
+        <div>
+            <input id="search-input-user" class="form-control" placeholder="Search">
+        </div>
+        <div id="users-div">
+            {% include 'plateforme/users-results.html' %}
+        </div>
+<div class="table-wrapper-scroll-y my-custom-scrollbar mb-2 bg-light " style="text-align: center">
+
+<script type="text/javascript" src="{% static 'js/search_users.js' %}"></script>
+
+  <table class="table table-bordered table-striped mb-0">
+    <thead>
+      <tr>
+        <th scope="col">Username</th>
+          <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody id="users-list">
+
+    </tbody>
+  </table>
+    {% if error %}
+    <p class="text-danger"><strong>{{ error }}</strong></p>
+    {% endif %}
+</div>
+
     <div class="form-group">
         <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
     </div>
 </form>
 
-<!-- TODO select members-->
-<!--<select class="form-control" form="project_form" multiple>-->
-<!--    {% for value, member in form.membres.field.choices %}-->
-<!--        <option value="{{ value }}">{{ member }}</option>-->
-<!--    {% endfor %}-->
-<!--</select>-->
 
 {% endblock %}

@@ -9,7 +9,7 @@ class Paiement(models.Model):
 	projet= models.ForeignKey(Projet,on_delete=models.CASCADE)
 	montant= models.FloatField()
 
-# Create your models here.
+
 class financeur(models.Model):
 	utilisateur = models.OneToOneField(User,on_delete=models.CASCADE)
 	projetsfinances = models.ManyToManyField(Projet)

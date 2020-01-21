@@ -14,9 +14,9 @@
             <a href="{% url 'projet:detail' paiement.projet.id %}" class="list-group-item list-group-item-action">
                 <div class="d-flex justify-content-between">
                     <h5 class="mb-1">{{ paiement.projet.nom }}</h5>
-                    <small>Date du paiement : {{ paiement.date_paiement|date:"d F Y - h:m" }}</small>
+                    <small>Payment date : {{ paiement.date_paiement|date:"d F Y - h:m" }}</small>
                 </div>
-                <small>Montant fourni : {{ paiement.montant }} €</small>
+                <small>Payed : {{ paiement.montant }} €</small>
             </a>
             {% endfor %}
         </div>
@@ -55,9 +55,9 @@
     </div>
     <div class="col-3 my-5">
         {% if validated_projects %}
-        <p><strong>Projets validés :</strong></p>
+        <p><strong>Validated projects :</strong></p>
         <div class="list-group">
-            {% for project in  validated_projects%}
+            {% for project in validated_projects%}
             <a href="{% url 'projet:detail' project.id %}" class="list-group-item list-group-item-action">
                 <div class="d-flex justify-content-between">
                     <p class="mb-1">{{ project.nom }}</p>

@@ -1,14 +1,16 @@
 import datetime
 import json
+import logging
 
+from django.db.models import QuerySet
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
-
 from expert.models import Expert
+from makeOurPlanetGreenAgain import settings
+from .models import User
 from . import forms as f
-import logging
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from projet.models import Projet
@@ -16,6 +18,7 @@ from financeurs.models import financeur, Paiement
 from .models import Commentaire
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from itertools import chain
 
 log = logging.getLogger(__name__)
 
@@ -23,9 +26,10 @@ log = logging.getLogger(__name__)
 def index(request):
     random_project_list = Projet.objects.order_by('?')[:5]
     context = {'random_project_list': random_project_list}
-    if (request.user.is_authenticated):
+    if request.user.is_authenticated:
         last_projects = financeur.objects.filter(utilisateur=request.user)
         paiement = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
+
         if paiement.count() > 0:
             comments = Commentaire.objects.filter(projet=paiement.last().projet)[:5]
             context = {'random_project_list': random_project_list, "user_last_project": paiement.last().projet,
@@ -33,11 +37,14 @@ def index(request):
                        "num_paiment": paiement.count()}
     return render(request, "plateforme/index.html", context)
 
+
 def profile(request):
     paiements = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
     paginator = Paginator(paiements, 8)  # 8 projets par page
 
-    expert = Expert.objects.get(utilisateur=request.user)
+
+
+
 
     page = request.GET.get('page')
 
@@ -47,10 +54,14 @@ def profile(request):
         paiements = paginator.page(1)
     except EmptyPage:
         paiements = paginator.page(paginator.num_pages)
-
-    context = {"paiements": paiements, "validated_projects": expert.validated_projects.all()}
+    if Expert.objects.filter(utilisateur=request.user):
+        expert = Expert.objects.get(utilisateur=request.user)
+        context = {"paiements": paiements, "validated_projects": expert.validated_projects.all()}
+    else:
+        context = {"paiements": paiements}
 
     return render(request, "plateforme/profile.html", context)
+
 
 def contact(request):
     if request.method == 'GET':
@@ -86,6 +97,7 @@ def login_view(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = f.LoginForm(request.POST)
+
         # check whether it's valid:
         if form.is_valid():
             username = form['username'].value()
@@ -145,9 +157,6 @@ def register_view(request):
     return render(request, 'plateforme/register.html')
 
 
-from itertools import chain
-
-
 def checkout_view(request):
     value = request.COOKIES.get('cart_projects')
 
@@ -189,14 +198,18 @@ def checkout_fund(request):
 
     financeur.objects.get_or_create(utilisateur=user)
     f = financeur.objects.get(utilisateur=user)
-    paiementList=[]
+    paiementList = []
 
     for item in list:
-        datep=datetime.datetime.now()
+        datep = datetime.datetime.now()
         Paiement.objects.create(id_user=user.id, date_paiement=datep,
                                 projet=Projet.objects.get(nom=item['0']),
                                 montant=int(search_dict(fundsToDict, str(item['0']) + "_fund")))
-        paiementList.append({"date_paiement": datep.__str__(), "project_name" :item['0'], "montant":int(search_dict(fundsToDict, str(item['0']) + "_fund"))})
+        paiementList.append({
+            "date_paiement": datep.__str__(),
+            "project_name": item['0'],
+            "montant": int(search_dict(fundsToDict, str(item['0']) + "_fund"))
+        })
 
         old_financement = int(Projet.objects.filter(nom=item['0'])[0].financement)
 
@@ -205,10 +218,6 @@ def checkout_fund(request):
         Projet.objects.filter(nom=item['0']).update(financement=new_financement)
         f.projetsfinances.add(Projet.objects.get(nom=item['0']))
         f.save()
-
-    # add to financeur
-
-    # update project financement
 
     json_data = json.dumps({"HTTPRESPONSE": "ok", "paiements": paiementList})
     response = HttpResponse(json_data, content_type="application/json")
@@ -254,7 +263,7 @@ def cookie_add_to_cart(request):
 
 def cookie_remove_from_cart(request):
     projectName = request.POST["name"].replace("_cart", "")
-    log.error(projectName)
+
     value = request.COOKIES.get('cart_projects')
     if value != None:
         cookieToDict = json.loads(value.replace('\'', '\"'))
@@ -309,3 +318,21 @@ def search(request):
         return JsonResponse(data=data_dict, safe=False)
 
     return render(request, "plateforme/search.html", context)
+
+def search_user(request):
+    url_parameter = request.GET.get("q")
+
+    if url_parameter:
+        users = User.objects.filter(username__icontains=url_parameter)
+    else:
+        users = User.objects.none()
+
+    context = {'users': users}
+    if request.is_ajax():
+        html = render_to_string(
+            template_name="plateforme/users-results.html",
+            context=context
+        )
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
