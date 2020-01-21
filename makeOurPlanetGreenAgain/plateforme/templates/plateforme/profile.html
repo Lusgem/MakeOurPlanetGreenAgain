@@ -5,52 +5,68 @@
 
 <div class="row">
     <div class="col my-3">
-        <h1>Historiques des paiments :</h1>
-    </div>
+        <h1>Payments history :</h1>
 
-</div>
 
-{% if paiements %}
-<div class="list-group mx-4">
-    {% for paiement in paiements %}
-    <a href="{% url 'projet:detail' paiement.projet.id %}" class="list-group-item list-group-item-action">
-        <div class="d-flex justify-content-between">
-            <h5 class="mb-1">{{ paiement.projet.nom }}</h5>
-            <small>Date du paiement : {{ paiement.date_paiement|date:"d F Y - h:m" }}</small>
-        </div>
-        <small>Montant fourni : {{ paiement.montant }} €</small>
-    </a>
-
-    {% endfor %}
-</div>
-{% else %}
-<p class="lead">There is no project yet. Add one !</p>
-{% endif %}
-
-<div class="m-4">
-{% if paiements.has_other_pages %}
-    <nav aria-label="Pagination">
-        <ul class="pagination">
-            {% if paiements.has_previous %}
-            <li class="page-item"><a href="?page={{ paiements.previous_page_number }}" class="page-link">Previous</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">Previous</span></li>
-            {% endif %}
-            {% for i in paiements.paginator.page_range %}
-                {% if projects.number == i %}
-                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
-                {% else %}
-                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
-                {% endif %}
+        {% if paiements %}
+        <div class="list-group mx-4">
+            {% for paiement in paiements %}
+            <a href="{% url 'projet:detail' paiement.projet.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <h5 class="mb-1">{{ paiement.projet.nom }}</h5>
+                    <small>Date du paiement : {{ paiement.date_paiement|date:"d F Y - h:m" }}</small>
+                </div>
+                <small>Montant fourni : {{ paiement.montant }} €</small>
+            </a>
             {% endfor %}
-            {% if paiements.has_next %}
-            <li class="page-item"><a href="?page={{ paiements.next_page_number }}" class="page-link">Next</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">Next</span></li>
+        </div>
+        {% else %}
+        <p class="lead">You have no payment yet.</p>
+        {% endif %}
+
+        <div class="m-4">
+            {% if paiements.has_other_pages %}
+            <nav aria-label="Pagination">
+                <ul class="pagination">
+                    {% if paiements.has_previous %}
+                    <li class="page-item"><a href="?page={{ paiements.previous_page_number }}" class="page-link">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                    {% endif %}
+                    {% for i in paiements.paginator.page_range %}
+                    {% if projects.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                    {% else %}
+                    <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if paiements.has_next %}
+                    <li class="page-item"><a href="?page={{ paiements.next_page_number }}" class="page-link">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
             {% endif %}
-        </ul>
-    </nav>
-{% endif %}
+        </div>
+
+    </div>
+    <div class="col-3 my-5">
+        {% if validated_projects %}
+        <p><strong>Projets validés :</strong></p>
+        <div class="list-group">
+            {% for project in  validated_projects%}
+            <a href="{% url 'projet:detail' project.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <p class="mb-1">{{ project.nom }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
 </div>
 
 {% endblock %}

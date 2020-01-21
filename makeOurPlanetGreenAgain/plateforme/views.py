@@ -1,14 +1,12 @@
 import datetime
 import json
 
-from django.db.models import QuerySet
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
-from matplotlib.rcsetup import validate_nseq_float
 
-from makeOurPlanetGreenAgain import settings
+from expert.models import Expert
 from . import forms as f
 import logging
 from django.core.mail import send_mail, BadHeaderError
@@ -28,7 +26,6 @@ def index(request):
     if (request.user.is_authenticated):
         last_projects = financeur.objects.filter(utilisateur=request.user)
         paiement = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
-        log.error(paiement.last().projet.nom)
         if paiement.count() > 0:
             comments = Commentaire.objects.filter(projet=paiement.last().projet)[:5]
             context = {'random_project_list': random_project_list, "user_last_project": paiement.last().projet,
@@ -38,18 +35,20 @@ def index(request):
 
 def profile(request):
     paiements = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
-    paginator = Paginator(paiements, 8)  # 6 projets par page
+    paginator = Paginator(paiements, 8)  # 8 projets par page
+
+    expert = Expert.objects.get(utilisateur=request.user)
 
     page = request.GET.get('page')
 
     try:
         paiements = paginator.page(page)
     except PageNotAnInteger:
-        paiements = paginator.page(8)
+        paiements = paginator.page(1)
     except EmptyPage:
         paiements = paginator.page(paginator.num_pages)
 
-    context = {"paiements" : paiements}
+    context = {"paiements": paiements, "validated_projects": expert.validated_projects.all()}
 
     return render(request, "plateforme/profile.html", context)
 
