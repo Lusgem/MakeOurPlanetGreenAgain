@@ -42,7 +42,7 @@ def detail(request, project_id):
         experts = project.expert_set.all().order_by('-karma')
         context['experts'] = experts
     # check if the actual user is an expert
-    if Expert.objects.filter(utilisateur__exact=request.user).exists():
+    if request.user.is_authenticated and Expert.objects.filter(utilisateur__exact=request.user).exists():
         context['user_can_validate'] = True
 
     if request.method == 'GET':

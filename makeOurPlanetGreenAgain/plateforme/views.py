@@ -5,6 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
+
+from expert.models import Expert
 from . import forms as f
 import logging
 from django.core.mail import send_mail, BadHeaderError
@@ -35,6 +37,8 @@ def profile(request):
     paiements = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
     paginator = Paginator(paiements, 8)  # 8 projets par page
 
+    expert = Expert.objects.get(utilisateur=request.user)
+
     page = request.GET.get('page')
 
     try:
@@ -44,7 +48,7 @@ def profile(request):
     except EmptyPage:
         paiements = paginator.page(paginator.num_pages)
 
-    context = {"paiements" : paiements}
+    context = {"paiements": paiements, "validated_projects": expert.validated_projects.all()}
 
     return render(request, "plateforme/profile.html", context)
 
