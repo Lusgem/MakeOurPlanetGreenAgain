@@ -28,10 +28,22 @@
                         <div class="card-body">
 
                             {% if user_last_project %}
-                                  <div id="{{ user_last_project.id }}" class="project card border-info mt-2 ml-2 mr-2 mb-1">
-                                        <div class="card-header"> <h2>{{ user_last_project.nom }} : </h2></div>
-                                        <div class="card-body">{{ user_last_project.description }} </div>
-                                  </div>
+
+                                <a href="{% url 'projet:detail' user_last_project.id %}" class=" border-dark list-group-item list-group-item-action" style="border-width:3px">
+                                    <div id="{{ user_last_project.id }}" class="d-flex justify-content-between ">
+                                        <h5 class="mb-1">{{ user_last_project.nom }}</h5>
+
+                                        <div><small>{{ user_last_project.publication_date|date:"d F Y" }}</small>
+                                            {% if user_last_project.financement == user_last_project.montant %}
+                                                <span class="badge badge-success">Finished </span>
+                                            {% else %}
+                                                <span class="badge badge-warning">In progress</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <p class="mb-1 pr-5">{{ user_last_project.description|truncatewords_html:50 }}</p>
+                                    <small>Montant : {{ user_last_project.montant }} €</small>
+                                </a>
 
                                 {% if comments_project %}
                                      <div class="card-body"> Comment(s) : </div>
@@ -63,7 +75,14 @@
                                 <a href="{% url 'projet:detail' random_project.id %}" class="list-group-item list-group-item-action">
                                     <div class="d-flex justify-content-between ">
                                         <h5 class="mb-1">{{ random_project.nom }}</h5>
-                                        <small>{{ random_project.publication_date|date:"d F Y" }}</small>
+
+                                        <div><small>{{ random_project.publication_date|date:"d F Y" }}</small>
+                                            {% if random_project.financement == random_project.montant %}
+                                                <span class="badge badge-success">Finished </span>
+                                            {% else %}
+                                                <span class="badge badge-warning">In progress</span>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     <p class="mb-1 pr-5">{{ random_project.description|truncatewords_html:50 }}</p>
                                     <small>Montant : {{ random_project.montant }} €</small>

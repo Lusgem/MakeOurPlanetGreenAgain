@@ -107,6 +107,7 @@
     <hr>
     <div class="mt-4">
         <p class="font-weight-light">Commentaires :</p>
+         {% if user.is_authenticated %}
         <form class="form" action="" role="form" method="post">
             {% csrf_token %}
             <div class="form-group">
@@ -117,6 +118,7 @@
                 <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
             </div>
         </form>
+        {% endif %}
     </div>
     <div class="list-group mb-3">
         {% for comment in comments %}

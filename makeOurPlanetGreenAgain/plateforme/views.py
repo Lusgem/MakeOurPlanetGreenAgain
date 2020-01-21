@@ -30,12 +30,28 @@ def index(request):
         paiement = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
         log.error(paiement.last().projet.nom)
         if paiement.count() > 0:
-            comments = Commentaire.objects.filter(projet=paiement.last().projet)
+            comments = Commentaire.objects.filter(projet=paiement.last().projet)[:5]
             context = {'random_project_list': random_project_list, "user_last_project": paiement.last().projet,
                        "num_project": last_projects[0].projetsfinances.all().count(), "comments_project": comments,
                        "num_paiment": paiement.count()}
     return render(request, "plateforme/index.html", context)
 
+def profile(request):
+    paiements = Paiement.objects.order_by("date_paiement").filter(id_user=request.user.id)
+    paginator = Paginator(paiements, 8)  # 6 projets par page
+
+    page = request.GET.get('page')
+
+    try:
+        paiements = paginator.page(page)
+    except PageNotAnInteger:
+        paiements = paginator.page(8)
+    except EmptyPage:
+        paiements = paginator.page(paginator.num_pages)
+
+    context = {"paiements" : paiements}
+
+    return render(request, "plateforme/profile.html", context)
 
 def contact(request):
     if request.method == 'GET':

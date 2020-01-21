@@ -15,5 +15,6 @@ urlpatterns = [
     path('remove_from_cart/', views.cookie_remove_from_cart, name='remove_from_cart'),
     path('checkout/',views.checkout_view,name="checkout_view"),
     path('checkout_fund/',views.checkout_fund,name="checkout_fund"),
-    path('search/', views.search, name='search')
+    path('search/', views.search, name='search'),
+    path('profile/', views.profile, name='profile_view')
 ]

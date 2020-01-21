@@ -65,12 +65,21 @@
                                 <button type="submit" class="btn btn-outline-secondary btn-danger text-light">Logout</button>
                            </form>
                         </li>
+                       <li class=" order-1">
+                           <form class="form" role="form" method="post" action="/profile/">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-secondary btn-info text-light">
+                                    <img src="{% static 'img/profile.png' %}" width="20" />
+                                </button>
+                           </form>
+                        </li>
                        <li  class="order-sm-3 ml-5" >
                         {% load static %}
                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalCart">
                                  <img src="{% static 'img/cart.png' %}" width="20" />
                            </button>
                        </li>
+
                    {% else %}
                   <li class="dropdown order-1">
                      <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle btn-success text-light">Login <span class="caret"></span></button>
