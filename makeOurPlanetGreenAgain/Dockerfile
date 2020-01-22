@@ -16,4 +16,5 @@ COPY ./start.sh /start.sh
 RUN chmod +x /start.sh
 
 COPY . /code/
+
 RUN ls -la /code/static/js
