@@ -116,7 +116,7 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$150000$pPIOk7xhJnXx$YjYSMxcm5bJLoeAyM7YtKokZlT60H+jVNX0nMDhMJh0=','2019-11-29 10:46:57.794135',1,'etudiant','','','romanepoirier0@gmail.com',1,1,'2019-11-29 10:33:28.226657'),(2,'pbkdf2_sha256$150000$7awQguvGIcxY$AD1IqJUcUCFelZqI/FlrhHVEAFaTzXgv3eeJDhLkeEY=','2020-01-21 09:54:52.306353',1,'admin','','','',1,1,'2020-01-17 10:52:58.103449'),(3,'pbkdf2_sha256$150000$MjCKZ4Njvw4E$c/+/PyMsaKnBrD+/+cVKItemoVIxbRnC1ck3AgZvUg8=','2020-01-21 09:07:37.357809',0,'user_test','Toto','Tutu','',0,1,'2020-01-18 16:52:02.000000'),(4,'pbkdf2_sha256$150000$8cqqwjVKoznm$T3mC7ptcYfacOGd5xAx6xFS3bgTQBuoH7JFU+kSFGok=','2020-01-21 09:25:31.674802',0,'user_test2','Jean','Paul','',0,1,'2020-01-18 16:59:38.000000'),(5,'pbkdf2_sha256$150000$wkOk7yZKscCf$TQTMmswjwMkoKs/UAuj7ex5gVOw94m6uLAnXEyqRtgY=','2020-01-18 18:34:44.064053',0,'cocolch','','','cocolch@test.fr',0,1,'2020-01-18 18:34:43.848330'),(6,'pbkdf2_sha256$150000$WCVdoLGSGw2I$VLgOH+oIPlHbJ1vN7dlEzRlzH0tRpp0LHJRIXv3BeWo=','2020-01-18 19:11:41.371498',0,'cocoelcham','coco','lechameau','cocoelcham@test.fr',0,1,'2020-01-18 19:11:41.161618');
+INSERT INTO `auth_user` VALUES (2,'pbkdf2_sha256$150000$7awQguvGIcxY$AD1IqJUcUCFelZqI/FlrhHVEAFaTzXgv3eeJDhLkeEY=','2020-01-22 09:28:07.647520',1,'admin','','','',1,1,'2020-01-17 10:52:58.103449'),(7,'pbkdf2_sha256$150000$y6896LQuvxMi$5zsJ6rOMd/8zPkJzQb1C588LNmUB2AFIAgLcextvyYA=',NULL,0,'user_expert','Bob','L\'Expert','',0,1,'2020-01-22 08:46:50.000000'),(8,'pbkdf2_sha256$150000$lGz38l0w7otH$Zy+ReootSI+DUO6LSw3PY368iKJbM8c0FOIR1vt+EEs=','2020-01-22 09:27:33.863644',0,'user','Alice','Dupont','',0,1,'2020-01-22 08:49:04.000000'),(9,'pbkdf2_sha256$150000$dJa3ydK0i0AS$2j+6rk9L8oN4FQxuL2ucwSRL5smLjgBnX+bJPN7f5Ns=',NULL,0,'user2','Jean-Pierre','Martin','',0,1,'2020-01-22 09:03:43.000000');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +197,7 @@ CREATE TABLE `copyright_copyright` (
   `nom` varchar(20) NOT NULL,
   `type` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `copyright_copyright` (
 
 LOCK TABLES `copyright_copyright` WRITE;
 /*!40000 ALTER TABLE `copyright_copyright` DISABLE KEYS */;
-INSERT INTO `copyright_copyright` VALUES (1,'copyright1','type1'),(2,'copyright2','type1'),(3,'copyright3','type1');
+INSERT INTO `copyright_copyright` VALUES (4,'Copyright CSFS','Copyright'),(5,'Copyright EcoFest','Copyright'),(6,'Copyright Cotoitur','Copyright'),(7,'Copyright CentreForm','Copyright'),(8,'Copyright EcovolMar','Copyright'),(9,'Copyright ODS','Copyright');
 /*!40000 ALTER TABLE `copyright_copyright` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,7 +231,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +240,7 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
-INSERT INTO `django_admin_log` VALUES (1,'2020-01-18 10:16:54.385199','1','Copyright object (1)',1,'[{\"added\": {}}]',8,2),(2,'2020-01-18 10:17:00.501582','1','Projet object (1)',1,'[{\"added\": {}}]',9,2),(3,'2020-01-18 10:42:17.111664','1','Projet object (1)',2,'[]',9,2),(4,'2020-01-18 10:42:23.024956','1','Projet object (1)',2,'[]',9,2),(5,'2020-01-18 10:50:09.872443','2','Copyright object (2)',1,'[{\"added\": {}}]',8,2),(6,'2020-01-18 10:50:14.824417','2','Projet object (2)',1,'[{\"added\": {}}]',9,2),(7,'2020-01-18 11:03:53.082424','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(8,'2020-01-18 11:04:30.225153','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(9,'2020-01-18 11:08:03.208089','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(10,'2020-01-18 11:09:01.911147','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(11,'2020-01-18 11:09:27.931518','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(12,'2020-01-18 11:10:01.827205','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(13,'2020-01-18 14:13:02.881865','3','Copyright object (3)',1,'[{\"added\": {}}]',8,2),(14,'2020-01-18 14:13:13.312796','3','Projet object (3)',1,'[{\"added\": {}}]',9,2),(15,'2020-01-18 16:23:00.171453','3','Projet object (3)',2,'[]',9,2),(16,'2020-01-18 16:52:03.017762','3','user_test',1,'[{\"added\": {}}]',4,2),(17,'2020-01-18 16:52:27.529826','3','user_test',2,'[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]',4,2),(18,'2020-01-18 16:52:46.702072','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(19,'2020-01-18 16:59:38.177150','4','user_test2',1,'[{\"added\": {}}]',4,2),(20,'2020-01-18 16:59:55.823965','4','user_test2',2,'[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]',4,2),(21,'2020-01-18 17:00:07.877577','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(22,'2020-01-18 18:36:28.183922','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(23,'2020-01-18 18:37:01.929289','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(24,'2020-01-18 18:37:15.487278','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(25,'2020-01-18 18:37:31.505125','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(26,'2020-01-18 19:12:09.115351','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(27,'2020-01-19 17:28:14.902780','4','Projet object (4)',1,'[{\"added\": {}}]',9,2),(28,'2020-01-20 10:47:53.204109','7','Projet object (7)',1,'[{\"added\": {}}]',9,2),(29,'2020-01-20 10:48:43.741780','8','Projet object (8)',1,'[{\"added\": {}}]',9,2),(30,'2020-01-20 12:21:50.754480','9','Projet object (9)',1,'[{\"added\": {}}]',9,2),(31,'2020-01-20 12:22:22.895338','10','Projet object (10)',1,'[{\"added\": {}}]',9,2),(32,'2020-01-20 14:41:13.294403','10','Projet object (10)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(33,'2020-01-20 15:22:47.723610','9','Projet object (9)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(34,'2020-01-20 16:11:05.666616','1','Commentaire object (1)',1,'[{\"added\": {}}]',11,2),(35,'2020-01-20 16:25:49.107634','2','Commentaire object (2)',1,'[{\"added\": {}}]',11,2),(36,'2020-01-20 16:34:39.372725','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(37,'2020-01-20 19:10:41.769951','1','Expert object (1)',1,'[{\"added\": {}}]',10,2),(38,'2020-01-20 19:13:42.766785','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"experts\"]}}]',9,2),(39,'2020-01-20 19:39:46.603522','1','Expert object (1)',2,'[{\"changed\": {\"fields\": [\"validated_projects\"]}}]',10,2),(40,'2020-01-20 19:53:22.823394','2','Expert object (2)',1,'[{\"added\": {}}]',10,2),(41,'2020-01-20 19:57:40.419237','3','Expert object (3)',1,'[{\"added\": {}}]',10,2);
+INSERT INTO `django_admin_log` VALUES (1,'2020-01-18 10:16:54.385199','1','Copyright object (1)',1,'[{\"added\": {}}]',8,2),(2,'2020-01-18 10:17:00.501582','1','Projet object (1)',1,'[{\"added\": {}}]',9,2),(3,'2020-01-18 10:42:17.111664','1','Projet object (1)',2,'[]',9,2),(4,'2020-01-18 10:42:23.024956','1','Projet object (1)',2,'[]',9,2),(5,'2020-01-18 10:50:09.872443','2','Copyright object (2)',1,'[{\"added\": {}}]',8,2),(6,'2020-01-18 10:50:14.824417','2','Projet object (2)',1,'[{\"added\": {}}]',9,2),(7,'2020-01-18 11:03:53.082424','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(8,'2020-01-18 11:04:30.225153','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(9,'2020-01-18 11:08:03.208089','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(10,'2020-01-18 11:09:01.911147','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(11,'2020-01-18 11:09:27.931518','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(12,'2020-01-18 11:10:01.827205','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"description\"]}}]',9,2),(13,'2020-01-18 14:13:02.881865','3','Copyright object (3)',1,'[{\"added\": {}}]',8,2),(14,'2020-01-18 14:13:13.312796','3','Projet object (3)',1,'[{\"added\": {}}]',9,2),(15,'2020-01-18 16:23:00.171453','3','Projet object (3)',2,'[]',9,2),(16,'2020-01-18 16:52:03.017762','3','user_test',1,'[{\"added\": {}}]',4,2),(17,'2020-01-18 16:52:27.529826','3','user_test',2,'[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]',4,2),(18,'2020-01-18 16:52:46.702072','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(19,'2020-01-18 16:59:38.177150','4','user_test2',1,'[{\"added\": {}}]',4,2),(20,'2020-01-18 16:59:55.823965','4','user_test2',2,'[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]',4,2),(21,'2020-01-18 17:00:07.877577','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(22,'2020-01-18 18:36:28.183922','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(23,'2020-01-18 18:37:01.929289','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(24,'2020-01-18 18:37:15.487278','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(25,'2020-01-18 18:37:31.505125','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(26,'2020-01-18 19:12:09.115351','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"membres\"]}}]',9,2),(27,'2020-01-19 17:28:14.902780','4','Projet object (4)',1,'[{\"added\": {}}]',9,2),(28,'2020-01-20 10:47:53.204109','7','Projet object (7)',1,'[{\"added\": {}}]',9,2),(29,'2020-01-20 10:48:43.741780','8','Projet object (8)',1,'[{\"added\": {}}]',9,2),(30,'2020-01-20 12:21:50.754480','9','Projet object (9)',1,'[{\"added\": {}}]',9,2),(31,'2020-01-20 12:22:22.895338','10','Projet object (10)',1,'[{\"added\": {}}]',9,2),(32,'2020-01-20 14:41:13.294403','10','Projet object (10)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(33,'2020-01-20 15:22:47.723610','9','Projet object (9)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(34,'2020-01-20 16:11:05.666616','1','Commentaire object (1)',1,'[{\"added\": {}}]',11,2),(35,'2020-01-20 16:25:49.107634','2','Commentaire object (2)',1,'[{\"added\": {}}]',11,2),(36,'2020-01-20 16:34:39.372725','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(37,'2020-01-20 19:10:41.769951','1','Expert object (1)',1,'[{\"added\": {}}]',10,2),(38,'2020-01-20 19:13:42.766785','2','Projet object (2)',2,'[{\"changed\": {\"fields\": [\"experts\"]}}]',9,2),(39,'2020-01-20 19:39:46.603522','1','Expert object (1)',2,'[{\"changed\": {\"fields\": [\"validated_projects\"]}}]',10,2),(40,'2020-01-20 19:53:22.823394','2','Expert object (2)',1,'[{\"added\": {}}]',10,2),(41,'2020-01-20 19:57:40.419237','3','Expert object (3)',1,'[{\"added\": {}}]',10,2),(42,'2020-01-21 10:50:34.991761','11','Projet object (11)',1,'[{\"added\": {}}]',9,2),(43,'2020-01-22 08:41:14.862696','8','Commentaire object (8)',3,'',11,2),(44,'2020-01-22 08:41:14.864620','7','Commentaire object (7)',3,'',11,2),(45,'2020-01-22 08:41:14.870029','6','Commentaire object (6)',3,'',11,2),(46,'2020-01-22 08:41:14.871928','5','Commentaire object (5)',3,'',11,2),(47,'2020-01-22 08:41:14.874872','4','Commentaire object (4)',3,'',11,2),(48,'2020-01-22 08:41:14.876047','3','Commentaire object (3)',3,'',11,2),(49,'2020-01-22 08:41:14.877840','2','Commentaire object (2)',3,'',11,2),(50,'2020-01-22 08:41:14.878963','1','Commentaire object (1)',3,'',11,2),(51,'2020-01-22 08:41:46.908033','2','Paiement object (2)',3,'',12,2),(52,'2020-01-22 08:41:46.909955','1','Paiement object (1)',3,'',12,2),(53,'2020-01-22 08:42:11.381970','2','financeur object (2)',3,'',7,2),(54,'2020-01-22 08:42:11.383944','1','financeur object (1)',3,'',7,2),(55,'2020-01-22 08:43:16.693173','3','Expert object (3)',3,'',10,2),(56,'2020-01-22 08:43:16.695840','2','Expert object (2)',3,'',10,2),(57,'2020-01-22 08:43:16.698125','1','Expert object (1)',3,'',10,2),(58,'2020-01-22 08:43:29.963210','11','Projet object (11)',3,'',9,2),(59,'2020-01-22 08:43:29.965179','10','Projet object (10)',3,'',9,2),(60,'2020-01-22 08:43:29.966955','9','Projet object (9)',3,'',9,2),(61,'2020-01-22 08:43:29.969664','8','Projet object (8)',3,'',9,2),(62,'2020-01-22 08:43:29.970757','7','Projet object (7)',3,'',9,2),(63,'2020-01-22 08:43:29.971679','6','Projet object (6)',3,'',9,2),(64,'2020-01-22 08:43:29.972676','5','Projet object (5)',3,'',9,2),(65,'2020-01-22 08:43:29.974404','4','Projet object (4)',3,'',9,2),(66,'2020-01-22 08:43:29.975509','3','Projet object (3)',3,'',9,2),(67,'2020-01-22 08:43:29.976568','2','Projet object (2)',3,'',9,2),(68,'2020-01-22 08:43:29.978351','1','Projet object (1)',3,'',9,2),(69,'2020-01-22 08:43:43.668978','3','Copyright object (3)',3,'',8,2),(70,'2020-01-22 08:43:43.671416','2','Copyright object (2)',3,'',8,2),(71,'2020-01-22 08:43:43.672993','1','Copyright object (1)',3,'',8,2),(72,'2020-01-22 08:44:37.383100','6','cocoelcham',3,'',4,2),(73,'2020-01-22 08:44:37.385180','5','cocolch',3,'',4,2),(74,'2020-01-22 08:44:37.387141','3','user_test',3,'',4,2),(75,'2020-01-22 08:44:37.388171','4','user_test2',3,'',4,2),(76,'2020-01-22 08:45:11.224262','1','etudiant',3,'',4,2),(77,'2020-01-22 08:46:50.110783','7','user_expert',1,'[{\"added\": {}}]',4,2),(78,'2020-01-22 08:47:58.602321','7','user_expert',2,'[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]',4,2),(79,'2020-01-22 08:49:05.070865','8','user',1,'[{\"added\": {}}]',4,2),(80,'2020-01-22 08:49:31.190426','8','user',2,'[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]',4,2),(81,'2020-01-22 08:56:12.581889','4','Copyright object (4)',1,'[{\"added\": {}}]',8,2),(82,'2020-01-22 08:56:20.503980','12','Projet object (12)',1,'[{\"added\": {}}]',9,2),(83,'2020-01-22 08:58:37.043675','5','Copyright object (5)',1,'[{\"added\": {}}]',8,2),(84,'2020-01-22 08:58:40.007892','13','Projet object (13)',1,'[{\"added\": {}}]',9,2),(85,'2020-01-22 09:00:34.873347','6','Copyright object (6)',1,'[{\"added\": {}}]',8,2),(86,'2020-01-22 09:02:36.354791','14','Projet object (14)',1,'[{\"added\": {}}]',9,2),(87,'2020-01-22 09:03:43.604129','9','user2',1,'[{\"added\": {}}]',4,2),(88,'2020-01-22 09:04:18.906809','9','user2',2,'[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]',4,2),(89,'2020-01-22 09:06:16.536749','7','Copyright object (7)',1,'[{\"added\": {}}]',8,2),(90,'2020-01-22 09:07:36.602833','15','Projet object (15)',1,'[{\"added\": {}}]',9,2),(91,'2020-01-22 09:09:12.752477','8','Copyright object (8)',1,'[{\"added\": {}}]',8,2),(92,'2020-01-22 09:10:41.301637','16','Projet object (16)',1,'[{\"added\": {}}]',9,2),(93,'2020-01-22 09:10:59.022163','14','Projet object (14)',2,'[{\"changed\": {\"fields\": [\"publication_date\"]}}]',9,2),(94,'2020-01-22 09:13:07.608022','17','Projet object (17)',1,'[{\"added\": {}}]',9,2),(95,'2020-01-22 09:16:12.452316','9','Copyright object (9)',1,'[{\"added\": {}}]',8,2),(96,'2020-01-22 09:16:18.177974','18','Projet object (18)',1,'[{\"added\": {}}]',9,2),(97,'2020-01-22 09:17:53.923262','9','Commentaire object (9)',1,'[{\"added\": {}}]',11,2),(98,'2020-01-22 09:19:04.613431','10','Commentaire object (10)',1,'[{\"added\": {}}]',11,2),(99,'2020-01-22 09:19:17.041678','4','Expert object (4)',1,'[{\"added\": {}}]',10,2),(100,'2020-01-22 09:20:27.595363','11','Commentaire object (11)',1,'[{\"added\": {}}]',11,2),(101,'2020-01-22 09:22:53.240500','3','Paiement object (3)',1,'[{\"added\": {}}]',12,2),(102,'2020-01-22 09:23:12.584912','3','financeur object (3)',1,'[{\"added\": {}}]',7,2),(103,'2020-01-22 09:23:49.057069','17','Projet object (17)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(104,'2020-01-22 09:27:06.031721','4','Expert object (4)',2,'[{\"changed\": {\"fields\": [\"validated_projects\"]}}]',10,2),(105,'2020-01-22 09:28:46.891031','4','Paiement object (4)',1,'[{\"added\": {}}]',12,2),(106,'2020-01-22 09:29:05.340799','3','financeur object (3)',2,'[{\"changed\": {\"fields\": [\"projetsfinances\", \"paiments\"]}}]',7,2),(107,'2020-01-22 09:29:20.309633','16','Projet object (16)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(108,'2020-01-22 09:30:19.050181','5','Paiement object (5)',1,'[{\"added\": {}}]',12,2),(109,'2020-01-22 09:30:36.032038','4','financeur object (4)',1,'[{\"added\": {}}]',7,2),(110,'2020-01-22 09:30:52.873519','13','Projet object (13)',2,'[{\"changed\": {\"fields\": [\"financement\"]}}]',9,2),(111,'2020-01-22 09:32:03.174419','12','Commentaire object (12)',1,'[{\"added\": {}}]',11,2);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +318,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('fthwbyjcpzt1e4ugzh4baomh5ix9pa39','NzhhZDE4NjA3YTQ1M2E4ZWM3ZWM4ZDg0MTgyMWM5N2YxNDA1ZDQ5Nzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3Mzc4MDYzZWE4MTYwOTI1YzA0YzNlM2U2YjhmMzJhZDhlMWIzYjQyIn0=','2020-02-04 09:45:48.199660'),('rl96ahyc1m40s8pb4x8pm3i14t4rtve3','NzhhZDE4NjA3YTQ1M2E4ZWM3ZWM4ZDg0MTgyMWM5N2YxNDA1ZDQ5Nzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3Mzc4MDYzZWE4MTYwOTI1YzA0YzNlM2U2YjhmMzJhZDhlMWIzYjQyIn0=','2020-02-01 19:12:04.004107'),('ujfc77y22ltkovuno6ylv96txhbalncr','MTM2NGU3OTczMmVjMGNmN2JjYzgxMzU3OTY4NDk3MDI4NzgyNjZlYTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2hhc2giOiI0MDE0YmUzODliMDEwMTI4MTliYjcyNDhiNTdhMDJiMWE3ODY3ODI1In0=','2019-12-13 10:46:57.796636'),('v7mxvp4t04mi1ffisfxz7aadvyfx5vo4','NzhhZDE4NjA3YTQ1M2E4ZWM3ZWM4ZDg0MTgyMWM5N2YxNDA1ZDQ5Nzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3Mzc4MDYzZWE4MTYwOTI1YzA0YzNlM2U2YjhmMzJhZDhlMWIzYjQyIn0=','2020-02-04 09:54:52.307959');
+INSERT INTO `django_session` VALUES ('d68oj2z35gw8xqidje1ggg3lhce12n6n','ODk2ZDE4NmQ3MGQ2YzNlMzI3YTJhY2VhNzJmNWMzMWZmOWUxMzI2ODp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9oYXNoIjoiNzM3ODA2M2VhODE2MDkyNWMwNGMzZTNlNmI4ZjMyYWQ4ZTFiM2I0MiIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2020-02-05 09:28:07.649282'),('fthwbyjcpzt1e4ugzh4baomh5ix9pa39','NzhhZDE4NjA3YTQ1M2E4ZWM3ZWM4ZDg0MTgyMWM5N2YxNDA1ZDQ5Nzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3Mzc4MDYzZWE4MTYwOTI1YzA0YzNlM2U2YjhmMzJhZDhlMWIzYjQyIn0=','2020-02-04 09:45:48.199660'),('rl96ahyc1m40s8pb4x8pm3i14t4rtve3','NzhhZDE4NjA3YTQ1M2E4ZWM3ZWM4ZDg0MTgyMWM5N2YxNDA1ZDQ5Nzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3Mzc4MDYzZWE4MTYwOTI1YzA0YzNlM2U2YjhmMzJhZDhlMWIzYjQyIn0=','2020-02-01 19:12:04.004107'),('ujfc77y22ltkovuno6ylv96txhbalncr','MTM2NGU3OTczMmVjMGNmN2JjYzgxMzU3OTY4NDk3MDI4NzgyNjZlYTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2hhc2giOiI0MDE0YmUzODliMDEwMTI4MTliYjcyNDhiNTdhMDJiMWE3ODY3ODI1In0=','2019-12-13 10:46:57.796636');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -336,7 +336,7 @@ CREATE TABLE `expert_expert` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `utilisateur_id` (`utilisateur_id`),
   CONSTRAINT `expert_expert_utilisateur_id_cda731e8_fk_auth_user_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,7 +345,7 @@ CREATE TABLE `expert_expert` (
 
 LOCK TABLES `expert_expert` WRITE;
 /*!40000 ALTER TABLE `expert_expert` DISABLE KEYS */;
-INSERT INTO `expert_expert` VALUES (1,25,4),(2,10,2),(3,100,6);
+INSERT INTO `expert_expert` VALUES (4,50,7);
 /*!40000 ALTER TABLE `expert_expert` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +365,7 @@ CREATE TABLE `expert_expert_validated_projects` (
   KEY `expert_expert_valida_projet_id_2fa36424_fk_projet_pr` (`projet_id`),
   CONSTRAINT `expert_expert_valida_expert_id_2be7a518_fk_expert_ex` FOREIGN KEY (`expert_id`) REFERENCES `expert_expert` (`id`),
   CONSTRAINT `expert_expert_valida_projet_id_2fa36424_fk_projet_pr` FOREIGN KEY (`projet_id`) REFERENCES `projet_projet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +374,7 @@ CREATE TABLE `expert_expert_validated_projects` (
 
 LOCK TABLES `expert_expert_validated_projects` WRITE;
 /*!40000 ALTER TABLE `expert_expert_validated_projects` DISABLE KEYS */;
-INSERT INTO `expert_expert_validated_projects` VALUES (1,1,2),(5,1,9),(4,2,1),(2,2,2),(3,3,2);
+INSERT INTO `expert_expert_validated_projects` VALUES (7,4,12),(8,4,16);
 /*!40000 ALTER TABLE `expert_expert_validated_projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -391,7 +391,7 @@ CREATE TABLE `financeurs_financeur` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `utilisateur_id` (`utilisateur_id`),
   CONSTRAINT `financeurs_financeur_utilisateur_id_d80955c8_fk_auth_user_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -400,7 +400,7 @@ CREATE TABLE `financeurs_financeur` (
 
 LOCK TABLES `financeurs_financeur` WRITE;
 /*!40000 ALTER TABLE `financeurs_financeur` DISABLE KEYS */;
-INSERT INTO `financeurs_financeur` VALUES (1,4);
+INSERT INTO `financeurs_financeur` VALUES (3,8),(4,9);
 /*!40000 ALTER TABLE `financeurs_financeur` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -420,7 +420,7 @@ CREATE TABLE `financeurs_financeur_paiments` (
   KEY `financeurs_financeur_paiement_id_ba689818_fk_financeur` (`paiement_id`),
   CONSTRAINT `financeurs_financeur_financeur_id_ff371be9_fk_financeur` FOREIGN KEY (`financeur_id`) REFERENCES `financeurs_financeur` (`id`),
   CONSTRAINT `financeurs_financeur_paiement_id_ba689818_fk_financeur` FOREIGN KEY (`paiement_id`) REFERENCES `financeurs_paiement` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,6 +429,7 @@ CREATE TABLE `financeurs_financeur_paiments` (
 
 LOCK TABLES `financeurs_financeur_paiments` WRITE;
 /*!40000 ALTER TABLE `financeurs_financeur_paiments` DISABLE KEYS */;
+INSERT INTO `financeurs_financeur_paiments` VALUES (1,3,3),(2,3,4),(3,4,5);
 /*!40000 ALTER TABLE `financeurs_financeur_paiments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -448,7 +449,7 @@ CREATE TABLE `financeurs_financeur_projetsfinances` (
   KEY `financeurs_financeur_projet_id_78411391_fk_projet_pr` (`projet_id`),
   CONSTRAINT `financeurs_financeur_financeur_id_2544a2b3_fk_financeur` FOREIGN KEY (`financeur_id`) REFERENCES `financeurs_financeur` (`id`),
   CONSTRAINT `financeurs_financeur_projet_id_78411391_fk_projet_pr` FOREIGN KEY (`projet_id`) REFERENCES `projet_projet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -457,7 +458,7 @@ CREATE TABLE `financeurs_financeur_projetsfinances` (
 
 LOCK TABLES `financeurs_financeur_projetsfinances` WRITE;
 /*!40000 ALTER TABLE `financeurs_financeur_projetsfinances` DISABLE KEYS */;
-INSERT INTO `financeurs_financeur_projetsfinances` VALUES (1,1,4);
+INSERT INTO `financeurs_financeur_projetsfinances` VALUES (4,3,16),(3,3,17),(5,4,13);
 /*!40000 ALTER TABLE `financeurs_financeur_projetsfinances` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -477,7 +478,7 @@ CREATE TABLE `financeurs_paiement` (
   PRIMARY KEY (`id`),
   KEY `financeurs_paiement_projet_id_f4f1db47_fk_projet_projet_id` (`projet_id`),
   CONSTRAINT `financeurs_paiement_projet_id_f4f1db47_fk_projet_projet_id` FOREIGN KEY (`projet_id`) REFERENCES `projet_projet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -486,7 +487,7 @@ CREATE TABLE `financeurs_paiement` (
 
 LOCK TABLES `financeurs_paiement` WRITE;
 /*!40000 ALTER TABLE `financeurs_paiement` DISABLE KEYS */;
-INSERT INTO `financeurs_paiement` VALUES (1,4,'2020-01-21 09:43:23.489628',2,4);
+INSERT INTO `financeurs_paiement` VALUES (3,8,'2020-01-22 09:21:27.000000',300,17),(4,8,'2020-01-22 09:28:34.000000',27610,16),(5,9,'2020-01-22 09:30:04.000000',1230,13);
 /*!40000 ALTER TABLE `financeurs_paiement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -508,7 +509,7 @@ CREATE TABLE `plateforme_commentaire` (
   KEY `plateforme_commentaire_utilisateur_id_57c0780d_fk_auth_user_id` (`utilisateur_id`),
   CONSTRAINT `plateforme_commentaire_projet_id_f0602248_fk_projet_projet_id` FOREIGN KEY (`projet_id`) REFERENCES `projet_projet` (`id`),
   CONSTRAINT `plateforme_commentaire_utilisateur_id_57c0780d_fk_auth_user_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -517,7 +518,7 @@ CREATE TABLE `plateforme_commentaire` (
 
 LOCK TABLES `plateforme_commentaire` WRITE;
 /*!40000 ALTER TABLE `plateforme_commentaire` DISABLE KEYS */;
-INSERT INTO `plateforme_commentaire` VALUES (1,'c\'est trop cool',2,6,'2020-01-20 16:31:01.661484'),(2,'de la merde ce projet',2,4,'2020-01-20 16:31:01.661484'),(3,'yes',2,2,'2020-01-20 16:47:55.220240'),(4,'yes',2,2,'2020-01-20 16:48:52.488999'),(5,'coucou',2,2,'2020-01-20 16:50:42.705466'),(6,'hello\r\nbite',2,2,'2020-01-20 16:51:00.909070'),(7,'top',2,2,'2020-01-20 16:55:32.174278'),(8,'coucou\r\ncomment ça va',2,2,'2020-01-20 17:04:25.188150');
+INSERT INTO `plateforme_commentaire` VALUES (9,'Super projet ! Très intéressant et important !',12,9,'2020-01-22 09:16:57.000000'),(10,'Je valide !',12,7,'2020-01-22 09:18:52.000000'),(11,'Les vers de terre c\'est l\'avenir... Je participe au financement !',17,8,'2020-01-22 09:19:51.000000'),(12,'Très bonne idée.',13,9,'2020-01-22 09:31:50.000000');
 /*!40000 ALTER TABLE `plateforme_commentaire` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -539,7 +540,7 @@ CREATE TABLE `projet_projet` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `license_id` (`copyright_id`),
   CONSTRAINT `projet_projet_copyright_id_e04cf7f6_fk_copyright_copyright_id` FOREIGN KEY (`copyright_id`) REFERENCES `copyright_copyright` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -548,7 +549,7 @@ CREATE TABLE `projet_projet` (
 
 LOCK TABLES `projet_projet` WRITE;
 /*!40000 ALTER TABLE `projet_projet` DISABLE KEYS */;
-INSERT INTO `projet_projet` VALUES (1,'Projet1',1000,'blabla',1,'2020-01-18 10:41:44.000000',0),(2,'Superprojet',10,'a z e r t y u i o p q s d f g h j top cool trop bien yessssssssss blabla je suis une longue description pour voir si le texte est bien coupé au bout d\'un moment pour pas avoir une description trop longue sur la page qui liste les projets comprend tu ? donc j\'ajoute des mots pour testerrrrrrrrrrrrrrrrrrrrr',2,'2020-01-18 10:48:35.000000',1),(3,'blabla',5000,'hduflijlkkl,c fesutrfgli:lk',3,'2020-01-18 14:11:38.000000',0),(4,'ppppppppppp',2,'blabla',NULL,'2020-01-19 17:28:03.000000',2),(5,'',50,'projo',NULL,'2020-01-19 17:28:34.760289',0),(6,'mm',50,'mm',NULL,'2020-01-19 17:29:40.861582',0),(7,'projet12',1,'bite',NULL,'2020-01-20 10:47:36.000000',0),(8,'titi la pute',2,'titi du cul',NULL,'2020-01-20 10:48:21.000000',0),(9,'pp',2,'pp',NULL,'2020-01-20 12:21:37.000000',1),(10,'ppp',1000,'lsdlsk',NULL,'2020-01-20 12:22:11.000000',1000);
+INSERT INTO `projet_projet` VALUES (12,'CSFS',20000,'Centre de Soin pour Faune Sauvage : aidez-nous à sauver les hérissons, écureuils, chauve-souris, grenouilles et oiseaux !',4,'2020-01-22 08:53:35.000000',0),(13,'Eco-festival',50000,'Eco-festival de sensibilisation à l\'environnement et à la préservation de la biodiversité. Espace de rencontre citoyenne pour trouver des solutions ensemble.',5,'2020-01-22 08:56:23.000000',1230),(14,'Cotoiturage solaire',30000,'Ce projet vise à développer massivement les installations solaires photovoltaïques portées et financées par les citoyens eux-mêmes. Il s\'agit de mutualiser l\'épargne citoyenne afin de faire naître des centaines d\'installations solaires sur les toits des maisons. Cela permet aussi bien de déployer les énergies renouvelables que de produire de l\'énergie localement.',6,'2020-01-21 08:58:49.000000',0),(15,'Centre de formation',17000,'Ce projet a pour but de créer un espace de mixité sociale où se former à la permaculture et au jardinage naturel, détudier le micro-maraîchage et sa viabilité économique. Il s\'agit d\'un lieu de protection et de mise en avant de la biodiversité au coeur de la ville.',7,'2020-01-22 09:04:28.000000',0),(16,'Ecovolontariat marin',27610,'Ce projet a oour d\'alerter les consciences sur la situation actuelle de la biodiversité marine, par le biais d\'actions pédagogiques à l\'attention du grand public : projections de films, conférences, ateliers ludiques pour les enfants, nettoyages de plages, etc.',8,'2020-01-22 09:08:04.000000',27610),(17,'Sauver vers de terre',1850,'L\'objectif de ce projet est de sensibiliser les agriculteurs, les futurs agriculteurs et les jardiniers à l\'intérêt agronomique et économique du ver de terre.',NULL,'2020-01-15 09:11:25.000000',300),(18,'ODS',8500,'Observatoire Des Saisons : observer et comprendre les effets du changement climatique sur la biodiversité locale. Ce projet a pour but de mieux informer sur les enjeux et mieux comprendre les impacts du changement climatique sur la biodiversité. Le projet propose d\'utiliser de nombreux outils numériques collaboratifs pour former les citoyens qui seront acteurs de ce projet. Il s\'agit de mobilier un réseau de citoyens et de professionnels afin que le programme ODS soit reconnu.',9,'2020-01-22 09:13:31.000000',0);
 /*!40000 ALTER TABLE `projet_projet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -568,7 +569,7 @@ CREATE TABLE `projet_projet_membres` (
   KEY `projet_projet_membres_user_id_a15233d3_fk_auth_user_id` (`user_id`),
   CONSTRAINT `projet_projet_membres_projet_id_f7651270_fk_projet_projet_id` FOREIGN KEY (`projet_id`) REFERENCES `projet_projet` (`id`),
   CONSTRAINT `projet_projet_membres_user_id_a15233d3_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -577,7 +578,7 @@ CREATE TABLE `projet_projet_membres` (
 
 LOCK TABLES `projet_projet_membres` WRITE;
 /*!40000 ALTER TABLE `projet_projet_membres` DISABLE KEYS */;
-INSERT INTO `projet_projet_membres` VALUES (1,1,1),(7,2,3),(8,2,4),(6,2,5),(9,2,6),(3,3,1),(10,4,6),(11,7,6),(12,8,6),(13,9,6),(14,10,6);
+INSERT INTO `projet_projet_membres` VALUES (16,12,8),(17,13,8),(18,14,8),(19,15,8),(20,15,9),(21,16,9),(22,17,9),(23,18,9);
 /*!40000 ALTER TABLE `projet_projet_membres` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -590,4 +591,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-21 11:30:00
+-- Dump completed on 2020-01-22 10:35:03
